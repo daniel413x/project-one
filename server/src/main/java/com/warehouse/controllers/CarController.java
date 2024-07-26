@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -63,12 +64,8 @@ public class CarController {
     // Pageable contains the page and size parameters we discussed earlier
     // we pass down the pageable object to the service
     @GetMapping
-    public CarGETResDto findAll(@PageableDefault(size = 12) Pageable pageable) {
-        Iterable<Car> cars = carService.findAll(pageable);
-        long count = carService.count();
-        System.out.println(count);
-        CarGETResDto res = new CarGETResDto(cars, count);
-        return res;
+    public CarGETResDto findAll(@PageableDefault(size = 12) Pageable pageable, @RequestParam Optional<String> search) {
+        return carService.findAll(pageable, search);
     }
 
     @GetMapping("/{id}")

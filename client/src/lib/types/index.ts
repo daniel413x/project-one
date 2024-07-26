@@ -1,15 +1,15 @@
-interface GETManyRes<T> {
-  rows: T[];
-  pagination: {
-    page: number;
-    size: number;
-    pages: number;
-    count: number;
-    pageLimitReached: boolean;
-  }
+interface Pagination {
+  page: number;
+  size: number;
+  pages: number;
+  count: number;
+  pageLimitReached: boolean;
 }
 
-export interface OrdersGETManyRes extends GETManyRes<Order> { }
+interface GETManyRes<T> {
+  rows: T[];
+  pagination: Pagination;
+}
 
 export interface Owner {
   id: number;
@@ -28,12 +28,25 @@ export interface Make {
   logoUrl: string;
 }
 
+export interface Color {
+  id: number;
+  name: string;
+}
+
 export interface Car {
   id: number;
   vin: string;
   make: Make;
   model: Model;
   owner: Owner;
+  color: Color;
+  year: number;
+  price: number;
+  mileage: number;
+  registrationNumber: string;
+  insurancePolicyNumber: string;
+  registrationExpiration: Date;
+  lastMaintenanceDate: Date;
 }
 
 export interface CarsGETManyRes extends GETManyRes<Car> { }

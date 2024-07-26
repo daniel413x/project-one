@@ -9,7 +9,7 @@ function LoadingSpinner({
   className,
 }: LoadingSpinnerProps) {
   return (
-    <Loader className={cn("-my-1 h-6 w-6 animate-spin text-stone-500", className)} />
+    <Loader className={cn("-my-1 h-6 w-6 animate-spin text-gray-800", className)} />
   );
 }
 

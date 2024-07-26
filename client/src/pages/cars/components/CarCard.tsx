@@ -38,16 +38,16 @@ function CarCard({
         </span>
       </div>
       <div className="grid grid-cols-3 gap-4">
-        <Button variant="outline" className="">
+        <Button variant="outline">
           <Wrench />
         </Button>
         <OwnerInfoDialog owner={car.owner}>
-          <Button variant="outline" className="">
+          <Button variant="outline">
             <User />
           </Button>
         </OwnerInfoDialog>
         <CarInfoDialog car={car}>
-          <Button variant="outline" className="">
+          <Button variant="outline">
             <Info />
           </Button>
         </CarInfoDialog>

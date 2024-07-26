@@ -61,7 +61,7 @@ function MainNav({
             // don't resize parent
             className={cn(`font-semibold relative group flex items-center gap-1 py-${py} -my-${py} px-3.5 rounded-md w-full`, {
               "bg-gray-500 text-white": to === pathname,
-              "text-black hover:text-gray-500": to !== pathname,
+              "text-gray-700 hover:text-gray-500": to !== pathname,
             })}
           >
             {icon}

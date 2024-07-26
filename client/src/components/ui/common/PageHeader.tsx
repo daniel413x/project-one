@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "./shadcn/skeleton";
 import ContentFrame from "./ContentFrame";
+import { Star } from "lucide-react";
+import { StarFilledIcon } from "@radix-ui/react-icons";
 
 interface PageHeaderProps {
   header: string;
@@ -18,8 +20,8 @@ function PageHeader({
 }: PageHeaderProps) {
   return (
     <ContentFrame>
-      <div className={cn("flex space-between items-center", className)}>
-        <h1 className="text-2xl font-bold flex-1">
+      <div className={cn("flex justify-between items-center", className)}>
+        <h1 className="text-2xl font-bold flex-1 max-w-max">
           {isLoading ? (
             <Skeleton
               className="w-24 h-8 flex-1"
