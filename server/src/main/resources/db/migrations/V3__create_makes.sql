@@ -1,0 +1,5 @@
+CREATE TABLE makes (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    logo_url VARCHAR(2000) NOT NULL
+);

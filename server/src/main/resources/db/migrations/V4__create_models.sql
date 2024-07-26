@@ -1,0 +1,6 @@
+CREATE TABLE models (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    make_id INT NOT NULL,
+    FOREIGN KEY (make_id) REFERENCES makes(id) ON DELETE CASCADE
+);
