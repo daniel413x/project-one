@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import img from "@/assets/bg-6.png";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
@@ -19,7 +18,7 @@ function MainLayout({
     >
       <div
         className="fixed min-h-screen w-full bg-no-repeat bg-cover bg-center -z-10"
-        style={{ backgroundImage: `url(${img})` }}
+        style={{ backgroundImage: "url(https://res.cloudinary.com/dbpwbih9m/image/upload/v1722294215/bg-6_bofi3k.png)" }}
       />
       <Header />
       {noContainer ? children : (

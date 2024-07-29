@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "@/assets/logo-standard.png";
+import logo from "@/assets/logo.png";
 import { DASHBOARD_ROUTE } from "@/lib/consts";
 import useIsAuthenticated from "@/lib/hooks/useIsAuthenticated";
 import MobileNav from "./MobileNav";

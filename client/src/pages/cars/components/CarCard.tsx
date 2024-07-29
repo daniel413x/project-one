@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/common/shadcn/button";
 import { Info, User, Wrench } from "lucide-react";
 import { Car } from "@/lib/types";
-import carPlaceholder from "@/assets/car.png";
 import { Skeleton } from "@/components/ui/common/shadcn/skeleton";
 import { useNavigate } from "react-router-dom";
-import { CARS_ROUTE } from "@/lib/consts";
+import { CARS_ROUTE, CAR_PLACEHOLDER_IMG_URL } from "@/lib/consts";
 import OwnerInfoDialog from "./OwnerInfoDialog";
 import CarInfoDialog from "./CarInfoDialog";
 
@@ -22,7 +21,7 @@ function CarCard({
   return (
     <div className="flex flex-col py-2 px-4 border">
       <img
-        src={carPlaceholder}
+        src={CAR_PLACEHOLDER_IMG_URL}
         alt=""
         className="w-full"
       />

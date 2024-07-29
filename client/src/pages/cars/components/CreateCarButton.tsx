@@ -1,7 +1,6 @@
 import { PlusIcon } from "lucide-react";
-import carPlaceholder from "@/assets/car.png";
 import { useNavigate } from "react-router-dom";
-import { CARS_ROUTE, CREATE_CAR_ROUTE } from "@/lib/consts";
+import { CARS_ROUTE, CAR_PLACEHOLDER_IMG_URL, CREATE_CAR_ROUTE } from "@/lib/consts";
 
 function CreateCarButton() {
   const navigate = useNavigate();
@@ -12,7 +11,7 @@ function CreateCarButton() {
       onClick={() => navigate(`/${CARS_ROUTE}/${CREATE_CAR_ROUTE}`)}
     >
       <img
-        src={carPlaceholder}
+        src={CAR_PLACEHOLDER_IMG_URL}
         alt=""
         className="w-full"
       />
