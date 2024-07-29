@@ -36,7 +36,6 @@ function SelectWithSearch({
   name,
 }: SelectWithSearchProps) {
   const activeElement = useActiveElement();
-  const [selected, setSelected] = useState<NamedObject>();
   const [search, setSearch] = useState<string>("");
   const debouncedSearch = useDebounce(search, 500);
   const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +48,6 @@ function SelectWithSearch({
   const noResults = data?.rows.length === 0;
   // select any model with name & id fields (color, make, model. etc)
   const onSelect = (namedObject: NamedObject) => {
-    setSelected(namedObject);
     form.setValue(name, namedObject);
   };
   const inputRef = useRef<HTMLInputElement>(null);
@@ -110,13 +108,14 @@ function SelectWithSearch({
   useEffect(() => {
     inputRef.current?.focus();
   }, [data]);
+  const selected = form.watch(name);
   return (
     <div className="flex">
+      {/* TODO: create handler */}
       <Select onValueChange={(v) => form.setValue(name, JSON.parse(v))}>
         <SelectTrigger>
           <SelectValue
-            defaultValue={selected?.name}
-            placeholder="Select a value"
+            placeholder={selected.name}
           />
         </SelectTrigger>
         <SelectContent ref={selectRef}>

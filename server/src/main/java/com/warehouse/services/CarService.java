@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.warehouse.dtos.CarDto;
 import com.warehouse.dtos.CarGETResDto;
 import com.warehouse.dtos.CarPOSTDto;
+import com.warehouse.dtos.CarPUTDto;
 import com.warehouse.models.Car;
 import com.warehouse.models.Color;
 import com.warehouse.models.Make;
@@ -58,8 +59,8 @@ public class CarService {
         return carRepository.findById(id);
     }
 
-    public CarDto save(CarPOSTDto carForm) {
-        Car car = new Car();
+// TODO: separate from CarService
+    private Car carMapper(Car car, CarPOSTDto carForm) {
         Model model = modelService.findById(carForm.getModelId())
                 .orElseThrow(() -> new RuntimeException("Model not found"));
         Make make = makeService.findById(carForm.getMakeId())
@@ -81,14 +82,24 @@ public class CarService {
         car.setPrice(carForm.getPrice());
         car.setVin(carForm.getVin());
         car.setYear(carForm.getYear());
+        return car;
+    }
+
+    public CarDto save(CarPOSTDto carForm) {
+        Car car = new Car();
+        car = carMapper(car, carForm);
         CarDto carDto = new CarDto(carRepository.save(car));
         return carDto;
     }
 
-    public void update(int id, Car car) {
+    public void update(int id, CarPUTDto carForm) {
+        Optional<Car> car = carRepository.findById(id);
+        if (car.isPresent()) {
+            Car updatedCar = carMapper(car.get(), carForm);
+            carRepository.save(updatedCar);
+        }
         if (!carRepository.existsById(id)) 
             throw new NoSuchElementException("Car with id " + id + " does not exist");
-        carRepository.save(car);
     }
 
     public void deleteById(int id) {

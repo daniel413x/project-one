@@ -82,7 +82,7 @@ export const useCreateCar = () => {
       ...form,
     });
     // if the car is created and its id is set in the create car page,
-    // then mutation should allow it to be fetched automatically
+    // then react-query should allow it to be fetched automatically
     const res = await fetch(`${API_BASE_URL}/${CARS_API_ROUTE}`, {
       method: "POST",
       headers: {
@@ -101,5 +101,36 @@ export const useCreateCar = () => {
   } = useMutation(createCarReq);
   return {
     createCar, isLoading, isError, isSuccess,
+  };
+};
+
+export const useUpdateCar = (id: string) => {
+  const updateCarReq = async (values: CarFormValues): Promise<void> => {
+    const form = {
+      ...values,
+      ownerId: values.owner.id,
+      makeId: values.make.id,
+      modelId: values.model.id,
+      colorId: values.color.id,
+    };
+    const body = JSON.stringify({
+      ...form,
+    });
+    const res = await fetch(`${API_BASE_URL}/${CARS_API_ROUTE}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+    });
+    if (!res.ok) {
+      throw new Error("failed to update car");
+    }
+  };
+  const {
+    mutateAsync: updateCar, isLoading, isError, isSuccess,
+  } = useMutation(updateCarReq);
+  return {
+    updateCar, isLoading, isError, isSuccess,
   };
 };

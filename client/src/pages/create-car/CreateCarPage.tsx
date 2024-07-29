@@ -22,7 +22,7 @@ import { useGetMakesForFormField } from "@/lib/api/MakesApi";
 import { useGetModelsForFormField } from "@/lib/api/ModelsApi";
 import { useGetOwnersForFormField } from "@/lib/api/OwnersApi";
 import { toast } from "sonner";
-import { useCreateCar, useGetCar } from "@/lib/api/CarsApi";
+import { useCreateCar, useGetCar, useUpdateCar } from "@/lib/api/CarsApi";
 import {
   Car,
 } from "@/lib/types";
@@ -102,7 +102,7 @@ function CreateCarPage() {
   };
   const {
     fetchedCar,
-  } = useGetCar(isCreatePage ? undefined : id);
+  } = useGetCar(isCreatePage ? null : id);
   useEffect(() => {
     if (fetchedCar) {
       resetForm(fetchedCar);
@@ -113,15 +113,20 @@ function CreateCarPage() {
   const {
     createCar,
   } = useCreateCar();
+  const {
+    updateCar,
+  } = useUpdateCar(id!);
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const car = await createCar(values);
-      navigate(`/${CARS_ROUTE}/${car.id}`, { replace: true });
-      // resetForm(car);
-      // if (!entity) {
-      //   router.push(successRoute || `/${params.storeId}/${entityRoute}`);
-      // }
-      toast.success("New car created");
+      if (fetchedCar) {
+        await updateCar(values);
+        toast.success("Car updated");
+      } else {
+        const car = await createCar(values);
+        navigate(`/${CARS_ROUTE}/${car.id}`, { replace: true });
+        resetForm(car);
+        toast.success("New car created");
+      }
     } catch (error: any) {
       toast.error(error.response.data || "Something went wrong...");
     }
@@ -135,10 +140,11 @@ function CreateCarPage() {
   //   isLoading: isLoadingGETColors,
   // } = useGetColors(form.getFieldState(""));
   const { isSubmitting } = form.formState;
+  const pageHeaderText = isCreatePage ? "Create new car" : `Edit ${fetchedCar?.make.name} ${fetchedCar?.model.name}`;
   return (
-    <Meta title={isCreatePage ? "Create new car" : "Edit"}>
+    <Meta title={pageHeaderText}>
       <main>
-        <PageHeader header={isCreatePage ? "Create new car" : "Edit"} icon={<ComputerIcon />} />
+        <PageHeader header={pageHeaderText} icon={<ComputerIcon />} />
         <ContentFrame mt>
           <Form {...form}>
             <form className="flex flex-col max-w-4xl m-auto" onSubmit={form.handleSubmit(onSubmit)}>

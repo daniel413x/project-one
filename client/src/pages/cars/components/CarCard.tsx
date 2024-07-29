@@ -3,6 +3,8 @@ import { Info, User, Wrench } from "lucide-react";
 import { Car } from "@/lib/types";
 import carPlaceholder from "@/assets/car.png";
 import { Skeleton } from "@/components/ui/common/shadcn/skeleton";
+import { useNavigate } from "react-router-dom";
+import { CARS_ROUTE } from "@/lib/consts";
 import OwnerInfoDialog from "./OwnerInfoDialog";
 import CarInfoDialog from "./CarInfoDialog";
 
@@ -13,6 +15,10 @@ interface CarCardProps {
 function CarCard({
   car,
 }: CarCardProps) {
+  const navigate = useNavigate();
+  const navigateToCarEditPage = () => {
+    navigate(`/${CARS_ROUTE}/${car.id}`);
+  };
   return (
     <div className="flex flex-col py-2 px-4 border">
       <img
@@ -38,11 +44,16 @@ function CarCard({
         </span>
       </div>
       <div className="grid grid-cols-3 gap-4">
-        <Button variant="outline">
+        <Button
+          variant="outline"
+          onClick={navigateToCarEditPage}
+        >
           <Wrench />
         </Button>
         <OwnerInfoDialog owner={car.owner}>
-          <Button variant="outline">
+          <Button
+            variant="outline"
+          >
             <User />
           </Button>
         </OwnerInfoDialog>

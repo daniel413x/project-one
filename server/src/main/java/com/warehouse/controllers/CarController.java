@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.warehouse.dtos.CarDto;
 import com.warehouse.dtos.CarGETResDto;
 import com.warehouse.dtos.CarPOSTDto;
+import com.warehouse.dtos.CarPUTDto;
 import com.warehouse.models.Car;
 import com.warehouse.services.CarService;
 
@@ -66,8 +67,9 @@ public class CarController {
     }
 
     @PutMapping("/{id}")
-    public void putMethodName(@PathVariable int id, @RequestBody Car entity) {
-        carService.update(id, entity);
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void putMethodName(@PathVariable int id, @Valid @RequestBody CarPUTDto carForm) {
+        carService.update(id, carForm);
     }
 
     @DeleteMapping("/{id}")
