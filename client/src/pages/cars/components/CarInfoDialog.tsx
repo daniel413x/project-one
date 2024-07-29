@@ -25,7 +25,7 @@ function CarInfoDialog({
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent data-testid="owner-info-modal">
+      <DialogContent data-testid="car-info-modal">
         <DialogHeader>
           <DialogTitle>
             Vehicle information

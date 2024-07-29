@@ -65,10 +65,7 @@ public class Car {
     private BigDecimal price;
 
     private Integer mileage;
-
-    @Column(length = 50)
-    private String condition;
-
+    
     @Column(name = "registration_number", length = 50)
     private String registrationNumber;
 

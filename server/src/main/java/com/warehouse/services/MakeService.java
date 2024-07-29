@@ -5,7 +5,10 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.warehouse.dtos.MakeGETResDto;
+import com.warehouse.dtos.MakePOSTDto;
 import com.warehouse.models.Make;
 import com.warehouse.repositories.MakeRepository;
 
@@ -18,15 +21,27 @@ public class MakeService {
         this.makeRepository = makeRepository;
     }
 
-    public Iterable<Make> findAll(Pageable pageable) {
-        return makeRepository.findAll(pageable).getContent();
+    public MakeGETResDto findAll(Pageable pageable, @RequestParam Optional<String> search) {
+        long count;
+        Iterable<Make> makes;
+        if (search.isPresent()) {
+            makes = makeRepository.findAllByName(search.get(), pageable);
+            count = makeRepository.countByName(search.get());
+        } else {
+            makes = makeRepository.findAll(pageable);
+            count = makeRepository.count();
+        }
+        MakeGETResDto res = new MakeGETResDto(makes, count, pageable);
+        return res;
     }
 
     public Optional<Make> findById(int id) {
         return makeRepository.findById(id);
     }
 
-    public Make save(Make make) {
+    public Make save(MakePOSTDto makeForm) {
+        Make make = new Make();
+        make.setName(makeForm.getName());
         return makeRepository.save(make);
     }
 

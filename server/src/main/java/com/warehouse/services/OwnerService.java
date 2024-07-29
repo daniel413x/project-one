@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.warehouse.dtos.OwnerGETResDto;
 import com.warehouse.models.Owner;
 import com.warehouse.repositories.OwnerRepository;
 
@@ -18,8 +20,18 @@ public class OwnerService {
         this.ownerRepository = ownerRepository;
     }
 
-    public Iterable<Owner> findAll(Pageable pageable) {
-        return ownerRepository.findAll(pageable).getContent();
+    public OwnerGETResDto findAll(Pageable pageable, @RequestParam Optional<String> search) {
+        long count;
+        Iterable<Owner> owners;
+        if (search.isPresent()) {
+            owners = ownerRepository.findAllByName(search.get(), pageable);
+            count = ownerRepository.countByName(search.get());
+        } else {
+            owners = ownerRepository.findAll(pageable);
+            count = ownerRepository.count();
+        }
+        OwnerGETResDto res = new OwnerGETResDto(owners, count, pageable);
+        return res;
     }
 
     public Optional<Owner> findById(int id) {

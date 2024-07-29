@@ -6,7 +6,7 @@ interface Pagination {
   pageLimitReached: boolean;
 }
 
-interface GETManyRes<T> {
+export interface GETManyRes<T> {
   rows: T[];
   pagination: Pagination;
 }
@@ -50,3 +50,11 @@ export interface Car {
 }
 
 export interface CarsGETManyRes extends GETManyRes<Car> { }
+
+export interface ColorsGETManyRes extends GETManyRes<Color> { }
+
+export interface MakesGETManyRes extends GETManyRes<Make> { }
+
+export interface ModelsGETManyRes extends GETManyRes<Model> { }
+
+export interface OwnersGETManyRes extends GETManyRes<Owner> { }

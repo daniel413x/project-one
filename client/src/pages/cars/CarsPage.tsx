@@ -9,12 +9,13 @@ import ContentFrame from "@/components/ui/common/ContentFrame";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Input } from "@/components/ui/common/shadcn/input";
 import LoadingSpinner from "@/components/ui/common/LoadingSpinner";
-import CarCard from "./components/CarCard";
 import PageControl from "@/components/ui/common/PageControl";
 import { useSearchParams } from "react-router-dom";
 import useDebounce from "@/lib/hooks/useDebounce";
 import { ChangeEvent, useState } from "react";
 import { cn } from "@/lib/utils";
+import CarCard from "./components/CarCard";
+import CreateCarButton from "./components/CreateCarButton";
 
 function CarsPage() {
   const {
@@ -36,7 +37,7 @@ function CarsPage() {
       }
     }
     setSearchParams(url);
-  }
+  };
   const handleSetPage = (num: number) => {
     window.scrollTo({
       top: 0,
@@ -51,16 +52,16 @@ function CarsPage() {
   const [search, setSearch] = useState<string>("");
   const handleSetSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target?.value);
-  }
+  };
   const handleClearSearch = () => {
     setSearch("");
-  }
+  };
   const handleSetDebouncedSearch = () => {
     handleSetSearchParams({
       search,
       page: "",
     });
-  }
+  };
   useDebounce(search, 500, handleSetDebouncedSearch);
   return (
     <Meta title="Cars">
@@ -82,14 +83,17 @@ function CarsPage() {
                 "opacity-50 pointer-events-none": !Input,
               })}
               onClick={handleClearSearch}
+              aria-label="Clear input"
+              type="button"
             >
               <XIcon />
             </button>
           </div>
           <ul className={cn("grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-4 min-h-screen", {
             "flex justify-center pt-4": isLoadingGET,
-          })} >
-            {isLoadingGET ? <LoadingSpinner /> : null}
+          })}
+          >
+            {isLoadingGET ? <LoadingSpinner /> : <CreateCarButton />}
             {data?.rows.map((car) => (
               <li key={car.id}>
                 <CarCard car={car} />

@@ -9,6 +9,7 @@ import {
 import RootPage from "./pages/root/RootPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import CarsPage from "./pages/cars/CarsPage";
+import CreateCarPage from "./pages/create-car/CreateCarPage";
 
 function App() {
   return (
@@ -27,6 +28,14 @@ function App() {
           element={(
             <MainLayout>
               <CarsPage />
+            </MainLayout>
+          )}
+        />
+        <Route
+          path={`/${CARS_ROUTE}/:id`}
+          element={(
+            <MainLayout>
+              <CreateCarPage />
             </MainLayout>
           )}
         />

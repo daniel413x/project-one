@@ -18,18 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.warehouse.dtos.CarDto;
 import com.warehouse.dtos.CarGETResDto;
 import com.warehouse.dtos.CarPOSTDto;
 import com.warehouse.models.Car;
-import com.warehouse.models.Color;
-import com.warehouse.models.Make;
-import com.warehouse.models.Model;
-import com.warehouse.models.Owner;
 import com.warehouse.services.CarService;
-import com.warehouse.services.ColorService;
-import com.warehouse.services.MakeService;
-import com.warehouse.services.ModelService;
-import com.warehouse.services.OwnerService;
 
 import jakarta.validation.Valid;
 
@@ -40,20 +33,8 @@ public class CarController {
 
     final private CarService carService;
 
-    final private MakeService makeService;
-
-    final private ModelService modelService;
-
-    final private OwnerService ownerService;
-
-    final private ColorService colorService;
-
-    public CarController(CarService carService, MakeService makeService, ModelService modelService, OwnerService ownerService, ColorService colorService) {
+    public CarController(CarService carService) {
         this.carService = carService;
-        this.makeService = makeService;
-        this.modelService = modelService;
-        this.ownerService = ownerService;
-        this.colorService = colorService;
     }
 
     // must use string quotes for the paginated requests to work
@@ -77,31 +58,11 @@ public class CarController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping() // POST http://localhost:8080/cars
+    // save Car and return it as a dto
+    @PostMapping()
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Car create(@Valid @RequestBody CarPOSTDto carForm) {
-        Car car = new Car();
-        Model model = modelService.findById(carForm.getModelId())
-                .orElseThrow(() -> new RuntimeException("Model not found"));
-        Make make = makeService.findById(carForm.getMakeId())
-                .orElseThrow(() -> new RuntimeException("Make not found"));
-        Owner owner = ownerService.findById(carForm.getOwnerId())
-                .orElseThrow(() -> new RuntimeException("Owner not found"));
-        Color color = colorService.findById(carForm.getColorId())
-                .orElseThrow(() -> new RuntimeException("Color not found"));
-        car.setColor(color);
-        car.setOwner(owner);
-        car.setMake(make);
-        car.setModel(model);
-        car.setCondition(carForm.getCondition());
-        car.setInsuranceExpiration(carForm.getInsuranceExpiration());
-        car.setInsurancePolicyNumber(carForm.getInsurancePolicyNumber());
-        car.setLastMaintenanceDate(carForm.getLastMaintenanceDate());
-        car.setMileage(carForm.getMileage());
-        car.setPrice(carForm.getPrice());
-        car.setVin(carForm.getVin());
-        car.setYear(carForm.getYear());
-        return carService.save(car);
+    public CarDto create(@Valid @RequestBody CarPOSTDto carForm) {
+        return carService.save(carForm);
     }
 
     @PutMapping("/{id}")

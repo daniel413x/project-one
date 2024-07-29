@@ -3,6 +3,8 @@ package com.warehouse.dtos;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,9 +37,12 @@ public class CarPOSTDto {
 
     private String insurancePolicyNumber;
 
+    @JsonFormat(pattern="MM/dd/yyyy", timezone="GMT-4")
     private Date insuranceExpiration;
 
+    @JsonFormat(pattern="MM/dd/yyyy", timezone="GMT-4")
     private Date registrationExpiration;
 
+    @JsonFormat(pattern="MM/dd/yyyy", timezone="GMT-4")
     private Date lastMaintenanceDate;
 }

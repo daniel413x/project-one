@@ -1,14 +1,16 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
-import { errorCatch } from "../utils";
-import { CARS_ROUTE } from "../consts";
-import { CarsGETManyRes } from "../types";
 import qs from "query-string";
 import { useSearchParams } from "react-router-dom";
+import { CarFormValues } from "@/pages/create-car/CreateCarPage";
+import { errorCatch } from "../utils";
+import { CARS_API_ROUTE } from "../consts";
+import { Car, CarsGETManyRes } from "../types";
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
 
 const GET_CARS = "getCars";
+const GET_CAR = "getCar";
 
 export const useGetCars = () => {
   const [searchParams] = useSearchParams();
@@ -16,14 +18,14 @@ export const useGetCars = () => {
   const search = searchParams.get("search");
   const sortBy = searchParams.get("sortBy");
   const url = qs.stringifyUrl({
-    url: `${API_BASE_URL}/${CARS_ROUTE}`,
+    url: `${API_BASE_URL}/${CARS_API_ROUTE}`,
     query: {
       page,
       sortBy,
       search,
     },
   }, { skipNull: true });
-  const getMyOrderReq: () => Promise<CarsGETManyRes> = async () => {
+  const getCarsReq: () => Promise<CarsGETManyRes> = async () => {
     const res = await fetch(url, {
       method: "GET",
     });
@@ -34,11 +36,70 @@ export const useGetCars = () => {
   };
   const {
     data: fetchedCars, isLoading, isError, error,
-  } = useQuery([url, GET_CARS], getMyOrderReq);
+  } = useQuery([url, GET_CARS], getCarsReq);
   if (error) {
     toast.error(errorCatch(error));
   }
   return {
     data: fetchedCars, isLoading, isError, error,
+  };
+};
+
+export const useGetCar = (id?: string | null) => {
+  const url = `${API_BASE_URL}/${CARS_API_ROUTE}/${id}`;
+  const getCarsReq: () => Promise<Car> = async () => {
+    const res = await fetch(url, {
+      method: "GET",
+    });
+    if (!res.ok) {
+      throw new Error(`Failed to get car with id ${id}`);
+    }
+    return res.json();
+  };
+  const {
+    data: fetchedCar, isLoading, isError, error,
+  } = useQuery([url, GET_CAR], getCarsReq, {
+    enabled: !!id,
+  });
+  if (error) {
+    toast.error(errorCatch(error));
+  }
+  return {
+    fetchedCar, isLoading, isError, error,
+  };
+};
+
+export const useCreateCar = () => {
+  const createCarReq = async (values: CarFormValues): Promise<Car> => {
+    const form = {
+      ...values,
+      ownerId: values.owner.id,
+      makeId: values.make.id,
+      modelId: values.model.id,
+      colorId: values.color.id,
+    };
+    const body = JSON.stringify({
+      ...form,
+    });
+    // if the car is created and its id is set in the create car page,
+    // then mutation should allow it to be fetched automatically
+    const res = await fetch(`${API_BASE_URL}/${CARS_API_ROUTE}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+    });
+    if (!res.ok) {
+      throw new Error("failed to create car");
+    }
+    const json = await res.json();
+    return json;
+  };
+  const {
+    mutateAsync: createCar, isLoading, isError, isSuccess,
+  } = useMutation(createCarReq);
+  return {
+    createCar, isLoading, isError, isSuccess,
   };
 };
