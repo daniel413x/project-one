@@ -44,9 +44,32 @@ public class CarService {
     public CarGETResDto findAll(Pageable pageable, @RequestParam Optional<String> search) {
         long count;
         Iterable<Car> cars;
+        // the query contains ?search=
         if (search.isPresent()) {
-            cars = carRepository.findAllByOwnerName(search.get(), pageable).getContent();
-            count = carRepository.countByOwnerName(search.get());
+            String searchString = search.get();
+            String[] splitSearch = searchString.split("\\s-");
+            // if splitSearch.length == 2, it appears the user is trying to search by setting a flag
+            // search by the flag if it is valid, otherwise query-search by make name
+            if (splitSearch.length == 2) {
+                String flag = splitSearch[1];
+                searchString = splitSearch[0];
+                if (flag.equalsIgnoreCase("owner")) {
+                    cars = carRepository.findByOwnerNameContainingIgnoreCase(searchString, pageable).getContent();
+                    count = carRepository.countByOwnerNameContainingIgnoreCase(searchString);
+                } else if (flag.equalsIgnoreCase("model")) {
+                    cars = carRepository.findByModelNameContainingIgnoreCase(searchString, pageable).getContent();
+                    count = carRepository.countByModelNameContainingIgnoreCase(searchString);
+                } else if (flag.equalsIgnoreCase("color")) {
+                    cars = carRepository.findByColorNameContainingIgnoreCase(searchString, pageable).getContent();
+                    count = carRepository.countByColorNameContainingIgnoreCase(searchString);
+                } else {
+                    cars = carRepository.findByMakeNameContainingIgnoreCase(searchString, pageable).getContent();
+                    count = carRepository.countByMakeNameContainingIgnoreCase(searchString);
+                }
+            } else {
+                cars = carRepository.findByMakeNameContainingIgnoreCase(searchString, pageable).getContent();
+                count = carRepository.countByMakeNameContainingIgnoreCase(searchString);
+            }
         } else {
             cars = carRepository.findAll(pageable);
             count = carRepository.count();

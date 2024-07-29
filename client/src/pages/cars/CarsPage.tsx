@@ -47,7 +47,7 @@ function CarsPage() {
       search: searchedName,
     });
   };
-  // will search by owner name
+  // will search by make name
   const [search, setSearch] = useState<string>("");
   const handleSetSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target?.value);
@@ -73,7 +73,7 @@ function CarsPage() {
             />
             <Input
               className="ps-12"
-              placeholder="Search by owner name"
+              placeholder="Search by make name"
               onChange={handleSetSearch}
               value={search}
             />

@@ -134,17 +134,16 @@ function SelectWithSearch({
             {isLoading ? <div className="py-1.5 pl-2 pr-8 text-sm"><LoadingSpinner /></div> : null}
             {!isLoading && noResults ? <span className="py-1.5 pl-2 pr-8 text-sm">No results</span> : null}
             {data?.rows.map((o, i) => (
-              <li key={o.id}>
-                <SelectItem
-                  id={`${name}-${i}`}
-                  value={JSON.stringify(o)}
-                  onClick={() => {
-                    onSelect(o);
-                  }}
-                >
-                  {o.name}
-                </SelectItem>
-              </li>
+              <SelectItem
+                key={o.id}
+                id={`${name}-${i}`}
+                value={JSON.stringify(o)}
+                onClick={() => {
+                  onSelect(o);
+                }}
+              >
+                {o.name}
+              </SelectItem>
             ))}
           </SelectGroup>
         </SelectContent>
