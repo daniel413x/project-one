@@ -43,6 +43,4 @@ public class ColorController {
     public Color create(@Valid @RequestBody ColorPOSTDto colorForm) {
         return colorService.save(colorForm);
     }
-
-
 }

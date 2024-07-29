@@ -1,7 +1,8 @@
 import {
   ChevronLeft,
+  CloudUpload,
   ComputerIcon,
-  Database,
+  Trash2,
 } from "lucide-react";
 import Meta from "@/components/misc/Meta";
 import PageHeader from "@/components/ui/common/PageHeader";
@@ -28,6 +29,7 @@ import {
 } from "@/lib/types";
 import { useEffect } from "react";
 import { format } from "date-fns";
+import usePreviousHistoryItem from "@/lib/hooks/usePreviousHistoryItem";
 import SelectWithSearch from "./components/SelectWithSearch";
 
 const namedObjectSchema = z.object({
@@ -132,13 +134,16 @@ function CreateCarPage() {
     }
   };
   const blockForm = form.formState.isSubmitting;
+  const previousHistoryItem = usePreviousHistoryItem();
+  const wereSearchResults = previousHistoryItem?.includes(`/${CARS_ROUTE}?`);
   const handlePressBackButton = () => {
-    navigate("/");
+    // user had search results while on /cars; return to those search results
+    if (wereSearchResults) {
+      navigate(previousHistoryItem!);
+    } else {
+      navigate(`/${CARS_ROUTE}`);
+    }
   };
-  // const {
-  //   data: colors,
-  //   isLoading: isLoadingGETColors,
-  // } = useGetColors(form.getFieldState(""));
   const { isSubmitting } = form.formState;
   const pageHeaderText = isCreatePage ? "Create new car" : `Edit ${fetchedCar?.make.name} ${fetchedCar?.model.name}`;
   return (
@@ -146,25 +151,83 @@ function CreateCarPage() {
       <main>
         <PageHeader header={pageHeaderText} icon={<ComputerIcon />} />
         <ContentFrame mt>
-          <Form {...form}>
-            <form className="flex flex-col max-w-4xl m-auto" onSubmit={form.handleSubmit(onSubmit)}>
-              {/* TODO: enforce make-model ownership */}
-              <div className="sm:grid grid-cols-2 gap-3">
+          <div className="flex flex-col max-w-4xl  m-auto">
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                type="button"
+                disabled={blockForm}
+                variant="outline"
+                className="justify-start mb-4"
+                onClick={handlePressBackButton}
+              >
+                <ChevronLeft />
+                {wereSearchResults ? "Return to page" : "Exit"}
+              </Button>
+            </div>
+            <Form {...form}>
+              <form className="flex flex-col" onSubmit={form.handleSubmit(onSubmit)}>
+                {/* TODO: enforce make-model ownership */}
+                <div className="sm:grid grid-cols-2 gap-3">
+                  <FormField
+                    control={form.control}
+                    name="make"
+                    key="make"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          Make
+                          <span className="text-gray-500">
+                            {" "}
+                            &#40;select one&#41;
+                          </span>
+                        </FormLabel>
+                        <SelectWithSearch
+                          hook={useGetMakesForFormField}
+                          form={form}
+                          name={field.name}
+                        />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="model"
+                    key="model"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          Model
+                          <span className="text-gray-500">
+                            {" "}
+                            &#40;select one&#41;
+                          </span>
+                        </FormLabel>
+                        <SelectWithSearch
+                          hook={useGetModelsForFormField}
+                          form={form}
+                          name={field.name}
+                        />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <FormField
                   control={form.control}
-                  name="make"
-                  key="make"
+                  name="color"
+                  key="color"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Make
-                        <span className="text-gray-400">
+                        Color
+                        <span className="text-gray-500">
                           {" "}
                           &#40;select one&#41;
                         </span>
                       </FormLabel>
                       <SelectWithSearch
-                        hook={useGetMakesForFormField}
+                        hook={useGetColorsForFormField}
                         form={form}
                         name={field.name}
                       />
@@ -174,19 +237,19 @@ function CreateCarPage() {
                 />
                 <FormField
                   control={form.control}
-                  name="model"
-                  key="model"
+                  name="owner"
+                  key="owner"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Model
-                        <span className="text-gray-400">
+                        Owner
+                        <span className="text-gray-500">
                           {" "}
                           &#40;select one&#41;
                         </span>
                       </FormLabel>
                       <SelectWithSearch
-                        hook={useGetModelsForFormField}
+                        hook={useGetOwnersForFormField}
                         form={form}
                         name={field.name}
                       />
@@ -194,185 +257,15 @@ function CreateCarPage() {
                     </FormItem>
                   )}
                 />
-              </div>
-              <FormField
-                control={form.control}
-                name="color"
-                key="color"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Color
-                      <span className="text-gray-400">
-                        {" "}
-                        &#40;select one&#41;
-                      </span>
-                    </FormLabel>
-                    <SelectWithSearch
-                      hook={useGetColorsForFormField}
-                      form={form}
-                      name={field.name}
-                    />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="owner"
-                key="owner"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Owner
-                      <span className="text-gray-400">
-                        {" "}
-                        &#40;select one&#41;
-                      </span>
-                    </FormLabel>
-                    <SelectWithSearch
-                      hook={useGetOwnersForFormField}
-                      form={form}
-                      name={field.name}
-                    />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="vin"
-                key="vin"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      VIN
-                      <span className="text-gray-400">
-                        {" "}
-                        &#40;alphanumeric&#41;
-                      </span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isSubmitting}
-                        placeholder="VIN"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="year"
-                key="year"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Year
-                      <span className="text-gray-400">
-                        {" "}
-                        &#40;whole number&#41;
-                      </span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isSubmitting}
-                        placeholder="2024"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="price"
-                key="price"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="uppercase text-xs">
-                      Price
-                      <span className="text-gray-400">
-                        {" "}
-                        &#40;USD&#41;
-                      </span>
-                      <span className="text-gray-400">
-                        {" "}
-                        &#40;whole number&#41;
-                      </span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isSubmitting}
-                        placeholder="10000"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="mileage"
-                key="mileage"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Mileage
-                      <span className="text-gray-400">
-                        {" "}
-                        &#40;whole number&#41;
-                      </span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isSubmitting}
-                        placeholder="5000"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="insurancePolicyNumber"
-                key="insurancePolicyNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Insurance Policy Number
-                      <span className="text-gray-400">
-                        {" "}
-                        &#40;alphanumeric&#41;
-                      </span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isSubmitting}
-                        placeholder="Insurance Policy Number"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="sm:grid grid-cols-2 gap-3">
                 <FormField
                   control={form.control}
-                  name="registrationNumber"
-                  key="registrationNumber"
+                  name="vin"
+                  key="vin"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Registration Number
-                        <span className="text-gray-400">
+                        VIN
+                        <span className="text-gray-500">
                           {" "}
                           &#40;alphanumeric&#41;
                         </span>
@@ -380,7 +273,7 @@ function CreateCarPage() {
                       <FormControl>
                         <Input
                           disabled={isSubmitting}
-                          placeholder="Registration Number"
+                          placeholder="VIN"
                           {...field}
                         />
                       </FormControl>
@@ -390,13 +283,165 @@ function CreateCarPage() {
                 />
                 <FormField
                   control={form.control}
-                  name="registrationExpiration"
-                  key="registrationExpiration"
+                  name="year"
+                  key="year"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Year
+                        <span className="text-gray-500">
+                          {" "}
+                          &#40;whole number&#41;
+                        </span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isSubmitting}
+                          placeholder="2024"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="price"
+                  key="price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="uppercase text-xs">
+                        Price
+                        <span className="text-gray-500">
+                          {" "}
+                          &#40;USD&#41;
+                        </span>
+                        <span className="text-gray-500">
+                          {" "}
+                          &#40;whole number&#41;
+                        </span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isSubmitting}
+                          placeholder="10000"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="mileage"
+                  key="mileage"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Mileage
+                        <span className="text-gray-500">
+                          {" "}
+                          &#40;whole number&#41;
+                        </span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isSubmitting}
+                          placeholder="5000"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="insurancePolicyNumber"
+                  key="insurancePolicyNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Insurance Policy Number
+                        <span className="text-gray-500">
+                          {" "}
+                          &#40;alphanumeric&#41;
+                        </span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isSubmitting}
+                          placeholder="Insurance Policy Number"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="sm:grid grid-cols-2 gap-3">
+                  <FormField
+                    control={form.control}
+                    name="registrationNumber"
+                    key="registrationNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          Registration Number
+                          <span className="text-gray-500">
+                            {" "}
+                            &#40;alphanumeric&#41;
+                          </span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled={isSubmitting}
+                            placeholder="Registration Number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="registrationExpiration"
+                    key="registrationExpiration"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col justify-end">
+                        <FormLabel className="h-[17px]">
+                          Registration Expiration
+                          <span className="text-gray-500">
+                            {" "}
+                            &#40;date&#41;
+                          </span>
+                        </FormLabel>
+                        <FormControl>
+                          <div className="flex">
+                            <Input
+                              disabled={isSubmitting}
+                              placeholder="MM/dd/yyyy"
+                              {...field}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <FormField
+                  control={form.control}
+                  name="lastMaintenanceDate"
+                  key="lastMaintenanceDate"
                   render={({ field }) => (
                     <FormItem className="flex flex-col justify-end">
                       <FormLabel className="h-[17px]">
-                        Registration Expiration
-                        <span className="text-gray-400">
+                        Last Maintenance Date
+                        <span className="text-gray-500">
                           {" "}
                           &#40;date&#41;
                         </span>
@@ -414,56 +459,29 @@ function CreateCarPage() {
                     </FormItem>
                   )}
                 />
-              </div>
-              <FormField
-                control={form.control}
-                name="lastMaintenanceDate"
-                key="lastMaintenanceDate"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col justify-end">
-                    <FormLabel className="h-[17px]">
-                      Last Maintenance Date
-                      <span className="text-gray-400">
-                        {" "}
-                        &#40;date&#41;
-                      </span>
-                    </FormLabel>
-                    <FormControl>
-                      <div className="flex">
-                        <Input
-                          disabled={isSubmitting}
-                          placeholder="MM/dd/yyyy"
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="items-center mt-4 relative">
-                <Button
-                  disabled={blockForm}
-                  variant="link"
-                  type="submit"
-                  className="absolute -translate-x-1/2 left-1/2 max-w-fit"
-                >
-                  <Database className="mr-1" size={18} />
-                  Save
-                </Button>
-                <Button
-                  type="button"
-                  disabled={blockForm}
-                  onClick={handlePressBackButton}
-                  variant="link"
-                  className="max-w-fit"
-                >
-                  <ChevronLeft />
-                  Return
-                </Button>
-              </div>
-            </form>
-          </Form>
+                <div className=" mt-6 grid sm:grid-cols-3 gap-3">
+                  <Button
+                    disabled={blockForm}
+                    type="submit"
+                  >
+                    <CloudUpload className="mr-1.5" strokeWidth={3} size={18} />
+                    {!fetchedCar ? "Create" : "Save"}
+                  </Button>
+                  {!fetchedCar ? null : (
+                    <Button
+                      type="button"
+                      disabled={blockForm}
+                      onClick={handlePressBackButton}
+                      variant="destructive"
+                    >
+                      <Trash2 />
+                      Delete
+                    </Button>
+                  )}
+                </div>
+              </form>
+            </Form>
+          </div>
         </ContentFrame>
       </main>
     </Meta>

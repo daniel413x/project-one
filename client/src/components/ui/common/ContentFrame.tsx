@@ -13,7 +13,7 @@ function ContentFrame({
   mb,
 }: ContentFrameProps) {
   return (
-    <div className={cn("bg-white border-2 border-gray-500 md:p-10 py-2 px-3", {
+    <div className={cn("bg-white border-2 border-gray-500 md:p-10 py-4 px-6", {
       "mt-10": mt,
       "mb-10": mb,
     })}

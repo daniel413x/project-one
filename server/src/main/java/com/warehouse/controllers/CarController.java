@@ -46,7 +46,7 @@ public class CarController {
     // Pageable contains the page and size parameters we discussed earlier
     // we pass down the pageable object to the service
     @GetMapping
-    public CarGETResDto findAll(@PageableDefault(size = 12) Pageable pageable, @RequestParam Optional<String> search) {
+    public CarGETResDto findAll(@PageableDefault(size = 11) Pageable pageable, @RequestParam Optional<String> search) {
         return carService.findAll(pageable, search);
     }
 

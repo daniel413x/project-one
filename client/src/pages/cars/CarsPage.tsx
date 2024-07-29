@@ -42,7 +42,6 @@ function CarsPage() {
     window.scrollTo({
       top: 0,
     });
-    setSearchParams({ page: String(num) });
     handleSetSearchParams({
       page: num,
       search: searchedName,

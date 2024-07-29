@@ -10,52 +10,55 @@ import RootPage from "./pages/root/RootPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import CarsPage from "./pages/cars/CarsPage";
 import CreateCarPage from "./pages/create-car/CreateCarPage";
+import PreviousHistoryItemProvider from "./components/providers/PreviousHistoryItemProvider";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={(
-            <MainLayout noContainer>
-              <RootPage />
-            </MainLayout>
+      <PreviousHistoryItemProvider>
+        <Routes>
+          <Route
+            path="/"
+            element={(
+              <MainLayout noContainer>
+                <RootPage />
+              </MainLayout>
             )}
-        />
-        <Route
-          path={`/${CARS_ROUTE}`}
-          element={(
-            <MainLayout>
-              <CarsPage />
-            </MainLayout>
+          />
+          <Route
+            path={`/${CARS_ROUTE}`}
+            element={(
+              <MainLayout>
+                <CarsPage />
+              </MainLayout>
           )}
-        />
-        <Route
-          path={`/${CARS_ROUTE}/:id`}
-          element={(
-            <MainLayout>
-              <CreateCarPage />
-            </MainLayout>
+          />
+          <Route
+            path={`/${CARS_ROUTE}/:id`}
+            element={(
+              <MainLayout>
+                <CreateCarPage />
+              </MainLayout>
           )}
-        />
-        <Route
-          path={`/${DASHBOARD_ROUTE}`}
-          element={(
-            <MainLayout>
-              <DashboardPage />
-            </MainLayout>
+          />
+          <Route
+            path={`/${DASHBOARD_ROUTE}`}
+            element={(
+              <MainLayout>
+                <DashboardPage />
+              </MainLayout>
           )}
-        />
-        <Route
-          path="*"
-          element={(
-            <Navigate
-              to="/"
-            />
+          />
+          <Route
+            path="*"
+            element={(
+              <Navigate
+                to="/"
+              />
             )}
-        />
-      </Routes>
+          />
+        </Routes>
+      </PreviousHistoryItemProvider>
     </Router>
   );
 }
