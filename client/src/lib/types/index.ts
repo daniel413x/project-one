@@ -45,6 +45,7 @@ export interface Car {
   mileage: number;
   registrationNumber: string;
   insurancePolicyNumber: string;
+  insuranceExpiration: Date;
   registrationExpiration: Date;
   lastMaintenanceDate: Date;
 }

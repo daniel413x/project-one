@@ -54,6 +54,9 @@ const formSchema = z.object({
   registrationExpiration: z.string().min(1).regex(/^(\d\d\/\d\d)(\/\d\d\d\d)$/, {
     message: "Date must be in format MM/dd/yyyy",
   }),
+  insuranceExpiration: z.string().min(1).regex(/^(\d\d\/\d\d)(\/\d\d\d\d)$/, {
+    message: "Date must be in format MM/dd/yyyy",
+  }),
   lastMaintenanceDate: z.string().min(1).regex(/^(\d\d\/\d\d)(\/\d\d\d\d)$/, {
     message: "Date must be in format MM/dd/yyyy",
   }),
@@ -83,6 +86,7 @@ function CreateCarPage() {
       registrationNumber: "",
       insurancePolicyNumber: "",
       registrationExpiration: "",
+      insuranceExpiration: "",
       lastMaintenanceDate: "",
     },
   });
@@ -96,6 +100,7 @@ function CreateCarPage() {
     form.setValue("registrationNumber", car?.registrationNumber || "");
     form.setValue("insurancePolicyNumber", car?.insurancePolicyNumber || "");
     form.setValue("registrationExpiration", car ? format(car.registrationExpiration, "MM/dd/yyyy") : "");
+    form.setValue("insuranceExpiration", car ? format(car.insuranceExpiration, "MM/dd/yyyy") : "");
     form.setValue("lastMaintenanceDate", car ? format(car.lastMaintenanceDate, "MM/dd/yyyy") : "");
     form.setValue("make", car?.make || { name: "", id: NaN });
     form.setValue("model", car?.model || { name: "", id: NaN });
@@ -157,7 +162,7 @@ function CreateCarPage() {
                 type="button"
                 disabled={blockForm}
                 variant="outline"
-                className="justify-start mb-4"
+                className="justify-start mb-4 ps-0 font-bold"
                 onClick={handlePressBackButton}
               >
                 <ChevronLeft />
@@ -357,30 +362,58 @@ function CreateCarPage() {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="insurancePolicyNumber"
-                  key="insurancePolicyNumber"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        Insurance Policy Number
-                        <span className="text-gray-500">
-                          {" "}
-                          &#40;alphanumeric&#41;
-                        </span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isSubmitting}
-                          placeholder="Insurance Policy Number"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="sm:grid grid-cols-2 gap-3">
+                  <FormField
+                    control={form.control}
+                    name="insurancePolicyNumber"
+                    key="insurancePolicyNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          Insurance Policy Number
+                          <span className="text-gray-500">
+                            {" "}
+                            &#40;alphanumeric&#41;
+                          </span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled={isSubmitting}
+                            placeholder="Insurance Policy Number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="insuranceExpiration"
+                    key="insuranceExpiration"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col justify-end">
+                        <FormLabel className="h-[17px]">
+                          Insurance Expiration
+                          <span className="text-gray-500">
+                            {" "}
+                            &#40;date&#41;
+                          </span>
+                        </FormLabel>
+                        <FormControl>
+                          <div className="flex">
+                            <Input
+                              disabled={isSubmitting}
+                              placeholder="MM/dd/yyyy"
+                              {...field}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <div className="sm:grid grid-cols-2 gap-3">
                   <FormField
                     control={form.control}

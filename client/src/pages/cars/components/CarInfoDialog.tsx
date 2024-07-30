@@ -21,6 +21,7 @@ function CarInfoDialog({
 }: CarInfoDialogProps) {
   const registrationExpiration = format(new Date(car.registrationExpiration), "MMM d, yyyy");
   const lastMaintenanceDate = format(new Date(car.lastMaintenanceDate), "MMM d, yyyy");
+  const insuranceExpiration = format(new Date(car.insuranceExpiration), "MMM d, yyyy");
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -106,6 +107,14 @@ function CarInfoDialog({
             </span>
             <span>
               {car.insurancePolicyNumber}
+            </span>
+          </div>
+          <div className="flex flex-col">
+            <span className="uppercase text-xs">
+              insurance exp.
+            </span>
+            <span>
+              {insuranceExpiration}
             </span>
           </div>
           <div className="flex flex-col">
