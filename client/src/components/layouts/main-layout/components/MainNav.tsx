@@ -6,13 +6,13 @@ import {
   OWNERS_ROUTE,
 } from "@/lib/consts";
 import {
-  Navigation,
   Wrench,
   User,
   CarIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import useIsAuthenticated from "@/lib/hooks/useIsAuthenticated";
+import { ColorWheelIcon } from "@radix-ui/react-icons";
 
 const links = [
   {
@@ -23,7 +23,7 @@ const links = [
   {
     to: `/${MAKES_ROUTE}`,
     label: "Makes",
-    icon: <Navigation className="w-5 h-5" strokeWidth={1.5} />,
+    icon: <ColorWheelIcon className="w-5 h-5" strokeWidth={1.5} />,
   },
   {
     to: `/${MODELS_ROUTE}`,

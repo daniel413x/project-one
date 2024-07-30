@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.warehouse.dtos.ModelGETResDto;
 import com.warehouse.dtos.ModelPOSTDto;
 import com.warehouse.models.Model;
+import com.warehouse.repositories.CarRepository;
 import com.warehouse.repositories.ModelRepository;
 
 @Service
@@ -17,8 +18,11 @@ public class ModelService {
 
     final private ModelRepository modelRepository;
 
-    public ModelService(ModelRepository modelRepository) {
+    final private CarRepository carRepository;
+
+    public ModelService(ModelRepository modelRepository, CarRepository carRepository) {
         this.modelRepository = modelRepository;
+        this.carRepository = carRepository;
     }
 
     public ModelGETResDto findAll(Pageable pageable, @RequestParam Optional<String> search) {
@@ -37,6 +41,10 @@ public class ModelService {
 
     public Optional<Model> findById(int id) {
         return modelRepository.findById(id);
+    }
+
+    public long getCarsCount(String name) {
+        return carRepository.countByModelNameContainingIgnoreCase(name);
     }
 
     public Model save(ModelPOSTDto modelForm) {

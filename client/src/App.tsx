@@ -5,12 +5,14 @@ import MainLayout from "./components/layouts/main-layout/MainLayout";
 import {
   CARS_ROUTE,
   DASHBOARD_ROUTE,
+  MAKES_ROUTE,
 } from "./lib/consts";
 import RootPage from "./pages/root/RootPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import CarsPage from "./pages/cars/CarsPage";
 import CreateCarPage from "./pages/create-car/CreateCarPage";
 import PreviousHistoryItemProvider from "./components/providers/PreviousHistoryItemProvider";
+import MakesPage from "./pages/makes/MakesPage";
 
 function App() {
   return (
@@ -24,6 +26,14 @@ function App() {
                 <RootPage />
               </MainLayout>
             )}
+          />
+          <Route
+            path={`/${MAKES_ROUTE}`}
+            element={(
+              <MainLayout>
+                <MakesPage />
+              </MainLayout>
+          )}
           />
           <Route
             path={`/${CARS_ROUTE}`}

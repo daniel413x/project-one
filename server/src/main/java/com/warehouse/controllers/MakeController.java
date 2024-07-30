@@ -6,7 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,10 +39,20 @@ public class MakeController {
         return makeService.findAll(pageable, search);
     }
 
+    @GetMapping("/{name}/cars/count")
+    public long getCarsCount(@PathVariable String name) {
+        return makeService.getCarsCount(name);
+    }
 
     @PostMapping()
     @ResponseStatus(code = HttpStatus.CREATED)
     public Make create(@Valid @RequestBody MakePOSTDto makeForm) {
         return makeService.save(makeForm);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable int id) {
+        makeService.deleteById(id);
     }
 }

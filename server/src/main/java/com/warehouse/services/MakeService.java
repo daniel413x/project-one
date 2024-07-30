@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.warehouse.dtos.MakeGETResDto;
 import com.warehouse.dtos.MakePOSTDto;
 import com.warehouse.models.Make;
+import com.warehouse.repositories.CarRepository;
 import com.warehouse.repositories.MakeRepository;
 
 @Service
@@ -17,16 +18,19 @@ public class MakeService {
 
     final private MakeRepository makeRepository;
 
-    public MakeService(MakeRepository makeRepository) {
+    final private CarRepository carRepository;
+
+    public MakeService(MakeRepository makeRepository, CarRepository carRepository) {
         this.makeRepository = makeRepository;
+        this.carRepository = carRepository;
     }
 
     public MakeGETResDto findAll(Pageable pageable, @RequestParam Optional<String> search) {
         long count;
         Iterable<Make> makes;
         if (search.isPresent()) {
-            makes = makeRepository.findAllByName(search.get(), pageable);
-            count = makeRepository.countByName(search.get());
+            makes = makeRepository.findAllByNameContainingIgnoreCase(search.get(), pageable);
+            count = makeRepository.countAllByNameContainingIgnoreCase(search.get());
         } else {
             makes = makeRepository.findAll(pageable);
             count = makeRepository.count();
@@ -37,6 +41,10 @@ public class MakeService {
 
     public Optional<Make> findById(int id) {
         return makeRepository.findById(id);
+    }
+
+    public long getCarsCount(String name) {
+        return carRepository.countByMakeNameContainingIgnoreCase(name);
     }
 
     public Make save(MakePOSTDto makeForm) {
@@ -54,6 +62,4 @@ public class MakeService {
     public void deleteById(int id) {
         makeRepository.deleteById(id);
     }
-
-
 }

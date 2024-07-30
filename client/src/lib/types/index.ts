@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 interface Pagination {
   page: number;
   size: number;
@@ -26,6 +27,7 @@ export interface Make {
   id: number;
   name: string;
   logoUrl: string;
+  models: Model[];
 }
 
 export interface Color {

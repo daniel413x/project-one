@@ -28,7 +28,12 @@ function CarCard({
         className="w-full"
       />
       <div className="flex flex-col py-4">
-        <span className="break-all sm:break-normal sm:truncate mb-1">
+        <span className="flex break-all sm:break-normal sm:truncate mb-1">
+          <img
+            src={car.make.logoUrl}
+            alt=""
+            className="w-[24px] mr-1"
+          />
           {`${car.make.name} ${car.model.name} ${car.vin}`}
         </span>
         <span className="font-bold">

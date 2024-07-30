@@ -7,6 +7,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,10 @@ public class ModelController {
         return modelService.findAll(pageable, search);
     }
 
+    @GetMapping("/{name}/cars/count")
+    public long getCarsCount(@PathVariable String name) {
+        return modelService.getCarsCount(name);
+    }
 
     @PostMapping()
     @ResponseStatus(code = HttpStatus.CREATED)

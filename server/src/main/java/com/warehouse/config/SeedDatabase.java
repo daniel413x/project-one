@@ -59,11 +59,11 @@ public class SeedDatabase {
                 List<Color> colors = List.of(blue, red, black, white, gray);
                 colorRepository.saveAll(colors);
                 // Define makes and models
-                Make toyota = new Make(null, "Toyota", "https://global.toyota/pages/global_toyota/mobility/toyota-brand/emblem_001.jpg",  null);
-                Make ford = new Make(null, "Ford", "https://i.pinimg.com/736x/79/9f/52/799f52e54102456c356f77aa90337e3f.jpg", null);
-                Make chevrolet = new Make(null, "Chevrolet", "https://di-uploads-pod4.dealerinspire.com/sunrisechevy/uploads/2018/02/2013-Chevrolet-BowTie.jpg", null);
-                Make honda = new Make(null, "Honda", "https://logopoppin.com/wp-content/uploads/2023/04/Honda-car-badge.webp", null);
-                Make tesla = new Make(null, "Tesla", "https://cdn.logojoy.com/wp-content/uploads/20240110153809/Black-tesla-logo-600x600.png", null);
+                Make toyota = new Make(null, "Toyota", "https://res.cloudinary.com/dbpwbih9m/image/upload/v1722368644/logo1_tz77oh.jpg",  null);
+                Make ford = new Make(null, "Ford", "https://res.cloudinary.com/dbpwbih9m/image/upload/v1722368644/ford-logo_rkgvtu.png", null);
+                Make chevrolet = new Make(null, "Chevrolet", "https://res.cloudinary.com/dbpwbih9m/image/upload/v1722368644/chevrolet-logo_qo2vab.png", null);
+                Make honda = new Make(null, "Honda", "https://res.cloudinary.com/dbpwbih9m/image/upload/v1722368644/honda-logo_jm4p7k.png", null);
+                Make tesla = new Make(null, "Tesla", "https://res.cloudinary.com/dbpwbih9m/image/upload/v1722368644/tesla-logo_i6dddi.png", null);
                 List<Model> toyotaModels = Arrays.asList(
                         Model.builder().name("Corolla").make(toyota).build(),
                         Model.builder().name("Camry").make(toyota).build(),
