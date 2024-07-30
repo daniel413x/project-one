@@ -18,17 +18,17 @@ const links = [
   {
     to: `/${CARS_ROUTE}`,
     label: "Cars",
-    icon: <Wrench className="w-6 h-6" />,
+    icon: <Wrench className="w-6 h-6" strokeWidth={1.25} />,
   },
   {
     to: `/${MAKES_ROUTE}`,
     label: "Makes",
-    icon: <Navigation className="w-5 h-5" />,
+    icon: <Navigation className="w-5 h-5" strokeWidth={1.5} />,
   },
   {
     to: `/${MODELS_ROUTE}`,
     label: "Models",
-    icon: <CarIcon className="w-6 h-6" />,
+    icon: <CarIcon className="w-6 h-6" strokeWidth={1.5} />,
   },
   {
     to: `/${OWNERS_ROUTE}`,

@@ -2,8 +2,6 @@ import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "./shadcn/skeleton";
 import ContentFrame from "./ContentFrame";
-import { Star } from "lucide-react";
-import { StarFilledIcon } from "@radix-ui/react-icons";
 
 interface PageHeaderProps {
   header: string;

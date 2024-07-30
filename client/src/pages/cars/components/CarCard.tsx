@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/common/shadcn/button";
-import { Info, User, Wrench } from "lucide-react";
+import {
+  Info, User, Wrench,
+} from "lucide-react";
 import { Car } from "@/lib/types";
 import { Skeleton } from "@/components/ui/common/shadcn/skeleton";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +28,7 @@ function CarCard({
         className="w-full"
       />
       <div className="flex flex-col py-4">
-        <span className="break-all sm:break-normal sm:truncate">
+        <span className="break-all sm:break-normal sm:truncate mb-1">
           {`${car.make.name} ${car.model.name} ${car.vin}`}
         </span>
         <span className="font-bold">
@@ -42,25 +44,25 @@ function CarCard({
           {car.owner.contact}
         </span>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid sm:grid-cols-3 gap-4">
         <Button
           variant="outline"
           onClick={navigateToCarEditPage}
         >
-          <Wrench />
+          <Wrench className="text-stone-700" />
         </Button>
+        <CarInfoDialog car={car}>
+          <Button variant="outline">
+            <Info className="text-stone-700" />
+          </Button>
+        </CarInfoDialog>
         <OwnerInfoDialog owner={car.owner}>
           <Button
             variant="outline"
           >
-            <User />
+            <User className="text-stone-700" />
           </Button>
         </OwnerInfoDialog>
-        <CarInfoDialog car={car}>
-          <Button variant="outline">
-            <Info />
-          </Button>
-        </CarInfoDialog>
       </div>
     </div>
   );

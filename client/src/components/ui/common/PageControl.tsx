@@ -60,7 +60,7 @@ function PageControl({
               onClick={() => handleSetPage(num)}
               isActive={page === num}
               className={cn("cursor-pointer hover:font-bold hover:bg-white hover:text-gray-600", {
-                "pointer-events-none cursor-none bg-gray-400 text-white border-none": page === num,
+                "pointer-events-none cursor-none bg-gray-600 text-white border-none": page === num,
               })}
               data-testid={`pagination-page-button-${num}`}
             >
