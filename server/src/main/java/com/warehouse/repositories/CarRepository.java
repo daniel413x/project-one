@@ -10,6 +10,7 @@ import com.warehouse.models.Car;
 @Repository
 public interface CarRepository extends JpaRepository<Car, Integer> {
     
+    // spring JPA dynamic query generation
     Page<Car> findByOwnerNameContainingIgnoreCase(String name, Pageable pageable);
     long countByOwnerNameContainingIgnoreCase(String name);
     
