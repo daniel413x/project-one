@@ -13,6 +13,7 @@ import CarsPage from "./pages/cars/CarsPage";
 import CreateCarPage from "./pages/create-car/CreateCarPage";
 import PreviousHistoryItemProvider from "./components/providers/PreviousHistoryItemProvider";
 import MakesPage from "./pages/makes/MakesPage";
+import CreateMakePage from "./pages/create-makes/CreateMakePage";
 
 function App() {
   return (
@@ -48,6 +49,14 @@ function App() {
             element={(
               <MainLayout>
                 <CreateCarPage />
+              </MainLayout>
+          )}
+          />
+          <Route
+            path={`/${MAKES_ROUTE}/:id`}
+            element={(
+              <MainLayout>
+                <CreateMakePage />
               </MainLayout>
           )}
           />

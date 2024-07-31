@@ -1,6 +1,6 @@
 import { PlusIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { CARS_ROUTE, CAR_PLACEHOLDER_IMG_URL, CREATE_CAR_ROUTE } from "@/lib/consts";
+import { CARS_ROUTE, CAR_PLACEHOLDER_IMG_URL, CREATE_ROUTE } from "@/lib/consts";
 
 function CreateCarButton() {
   const navigate = useNavigate();
@@ -8,7 +8,7 @@ function CreateCarButton() {
     <button
       className="flex flex-col py-2 px-4 border"
       type="button"
-      onClick={() => navigate(`/${CARS_ROUTE}/${CREATE_CAR_ROUTE}`)}
+      onClick={() => navigate(`/${CARS_ROUTE}/${CREATE_ROUTE}`)}
     >
       <img
         src={CAR_PLACEHOLDER_IMG_URL}

@@ -14,7 +14,6 @@ import useDebounce from "@/lib/hooks/useDebounce";
 import { ChangeEvent, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useGetMakes } from "@/lib/api/MakesApi";
-import CarCard from "./components/CarCard";
 import CreateMakeButton from "./components/CreateMakeButton";
 import MakeCard from "./components/MakeCard";
 

@@ -38,9 +38,6 @@ public class CarController {
         this.carService = carService;
     }
 
-    // must use string quotes for the paginated requests to work
-    // curl "http://localhost:8080/cars?page=0&size=2"
-
     // this is the second place we implement pagination
     // we pass in the Pageable object in the method parameters
     // Pageable contains the page and size parameters we discussed earlier

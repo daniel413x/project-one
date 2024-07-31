@@ -17,21 +17,23 @@ interface DeleteMakeAlertDialogProps {
   children: ReactNode;
   make: Make;
   carsCount: number | undefined;
+  returnTo?: string;
 }
 
 function DeleteMakeAlertDialog({
   children,
   make,
   carsCount,
+  returnTo,
 }: DeleteMakeAlertDialogProps) {
   const {
     deleteMake,
-  } = useDeleteMake(make.id);
+  } = useDeleteMake(make.id, returnTo);
   const handleClickConfirm = async () => {
     await deleteMake();
   };
   const addCarsDeletionWarning = carsCount && carsCount > 0;
-  const addModelsDeletionWarning = make.models.length > 0;
+  const addModelsDeletionWarning = make.models?.length > 0;
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>

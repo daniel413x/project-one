@@ -8,7 +8,7 @@ import Meta from "@/components/misc/Meta";
 import PageHeader from "@/components/ui/common/PageHeader";
 import ContentFrame from "@/components/ui/common/ContentFrame";
 import { useNavigate, useParams } from "react-router-dom";
-import { CARS_ROUTE, CREATE_CAR_ROUTE } from "@/lib/consts";
+import { CARS_ROUTE, CREATE_ROUTE } from "@/lib/consts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form, FormControl, FormField, FormItem, FormLabel,
@@ -71,7 +71,7 @@ function CreateCarPage() {
   const {
     id,
   } = useParams();
-  const isCreatePage = id === CREATE_CAR_ROUTE;
+  const isCreatePage = id === CREATE_ROUTE;
   const form = useForm<CarFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -93,7 +93,7 @@ function CreateCarPage() {
   // initialize with values of fetched carif there is one
   // otherwise initialize with empty values
   const resetForm = (car?: Car) => {
-    form.setValue("vin", car?.vin || "zzz");
+    form.setValue("vin", car?.vin || "");
     form.setValue("year", car?.year.toString() || "");
     form.setValue("price", car?.price.toString() || "");
     form.setValue("mileage", car?.mileage.toString() || "");

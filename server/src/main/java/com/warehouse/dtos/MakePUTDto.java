@@ -9,8 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MakePOSTDto {
-    private String name;
-    
-    private String logoUrl;
+public class MakePUTDto extends MakePOSTDto {
+    private int id;
 }

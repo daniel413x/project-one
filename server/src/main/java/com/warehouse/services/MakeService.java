@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.warehouse.dtos.MakeGETResDto;
 import com.warehouse.dtos.MakePOSTDto;
+import com.warehouse.dtos.MakePUTDto;
 import com.warehouse.models.Make;
 import com.warehouse.repositories.CarRepository;
 import com.warehouse.repositories.MakeRepository;
@@ -50,12 +51,17 @@ public class MakeService {
     public Make save(MakePOSTDto makeForm) {
         Make make = new Make();
         make.setName(makeForm.getName());
+        make.setLogoUrl(makeForm.getLogoUrl());
         return makeRepository.save(make);
     }
 
-    public void update(int id, Make make) {
+    public void update(int id, MakePUTDto makeForm) {
         if (!makeRepository.existsById(id)) 
             throw new NoSuchElementException("Make with id " + id + " does not exist");
+        Make make = new Make();
+        make.setName(makeForm.getName());
+        make.setLogoUrl(makeForm.getLogoUrl());
+        make.setId(id);
         makeRepository.save(make);
     }
 
