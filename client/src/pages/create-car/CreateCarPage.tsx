@@ -29,7 +29,7 @@ import {
 } from "@/lib/types";
 import { useEffect } from "react";
 import { format } from "date-fns";
-import usePreviousHistoryItem from "@/lib/hooks/usePreviousHistoryItem";
+import useReturnToQueryResultsCallback from "@/lib/hooks/useReturnToQueryResultsCallback";
 import SelectWithSearch from "./components/SelectWithSearch";
 
 const namedObjectSchema = z.object({
@@ -139,16 +139,10 @@ function CreateCarPage() {
     }
   };
   const blockForm = form.formState.isSubmitting;
-  const previousHistoryItem = usePreviousHistoryItem();
-  const wereSearchResults = previousHistoryItem?.includes(`/${CARS_ROUTE}?`);
-  const handlePressBackButton = () => {
-    // user had search results while on /cars; return to those search results
-    if (wereSearchResults) {
-      navigate(previousHistoryItem!);
-    } else {
-      navigate(`/${CARS_ROUTE}`);
-    }
-  };
+  const {
+    wereSearchResults,
+    onPressBackButton,
+  } = useReturnToQueryResultsCallback(CARS_ROUTE);
   const { isSubmitting } = form.formState;
   const pageHeaderText = isCreatePage ? "Create new car" : `Edit ${fetchedCar?.make.name} ${fetchedCar?.model.name}`;
   return (
@@ -163,10 +157,10 @@ function CreateCarPage() {
                 disabled={blockForm}
                 variant="outline"
                 className="justify-start mb-4 ps-0 font-bold"
-                onClick={handlePressBackButton}
+                onClick={onPressBackButton}
               >
                 <ChevronLeft />
-                {wereSearchResults ? "Return to page" : "Exit"}
+                {wereSearchResults ? "Return to search results" : "Exit"}
               </Button>
             </div>
             <Form {...form}>
@@ -504,7 +498,6 @@ function CreateCarPage() {
                     <Button
                       type="button"
                       disabled={blockForm}
-                      onClick={handlePressBackButton}
                       variant="destructive"
                     >
                       <Trash2 />

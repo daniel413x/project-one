@@ -26,7 +26,7 @@ import {
   Make,
 } from "@/lib/types";
 import { useEffect } from "react";
-import usePreviousHistoryItem from "@/lib/hooks/usePreviousHistoryItem";
+import useReturnToQueryResultsCallback from "@/lib/hooks/useReturnToQueryResultsCallback";
 import DeleteMakeAlertDialog from "../makes/components/DeleteMakeDialog";
 
 const formSchema = z.object({
@@ -89,16 +89,10 @@ function CreateMakePage() {
     }
   };
   const blockForm = form.formState.isSubmitting;
-  const previousHistoryItem = usePreviousHistoryItem();
-  const wereSearchResults = previousHistoryItem?.includes(`/${MAKES_ROUTE}?`);
-  const handlePressBackButton = () => {
-    // user had search results while on /makes; return to those search results
-    if (wereSearchResults) {
-      navigate(previousHistoryItem!);
-    } else {
-      navigate(`/${MAKES_ROUTE}`);
-    }
-  };
+  const {
+    wereSearchResults,
+    onPressBackButton,
+  } = useReturnToQueryResultsCallback(MAKES_ROUTE);
   const { isSubmitting } = form.formState;
   const pageHeaderText = isCreatePage ? "Create new make" : `Edit ${fetchedMake?.name}`;
   const {
@@ -116,10 +110,10 @@ function CreateMakePage() {
                 disabled={blockForm}
                 variant="outline"
                 className="justify-start mb-4 ps-0 font-bold"
-                onClick={handlePressBackButton}
+                onClick={onPressBackButton}
               >
                 <ChevronLeft />
-                {wereSearchResults ? "Return to page" : "Exit"}
+                {wereSearchResults ? "Return to search results" : "Exit"}
               </Button>
             </div>
             <Form {...form}>
