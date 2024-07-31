@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 import qs from "query-string";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { CarFormValues } from "@/pages/create-car/CreateCarPage";
+import { CarFormValues } from "@/pages/cars/routes/create-car/CreateCarPage";
 import { errorCatch } from "../utils";
 import { CARS_API_ROUTE } from "../consts";
 import { Car, CarsGETManyRes } from "../types";

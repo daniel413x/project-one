@@ -27,7 +27,7 @@ import {
 } from "@/lib/types";
 import { useEffect } from "react";
 import useReturnToQueryResultsCallback from "@/lib/hooks/useReturnToQueryResultsCallback";
-import DeleteMakeAlertDialog from "../makes/components/DeleteMakeDialog";
+import DeleteMakeAlertDialog from "../../components/DeleteMakeDialog";
 
 const formSchema = z.object({
   name: z.string().min(1),

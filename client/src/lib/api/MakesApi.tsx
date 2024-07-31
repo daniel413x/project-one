@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 import qs from "query-string";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { MakeFormValues } from "@/pages/create-makes/CreateMakePage";
+import { MakeFormValues } from "@/pages/makes/routes/create-makes/CreateMakePage";
 import { errorCatch } from "../utils";
 import { CARS_API_ROUTE, MAKES_API_ROUTE } from "../consts";
 import { Make, MakesGETManyRes } from "../types";

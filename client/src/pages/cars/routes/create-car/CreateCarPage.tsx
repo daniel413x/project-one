@@ -31,7 +31,7 @@ import { useEffect } from "react";
 import { format } from "date-fns";
 import useReturnToQueryResultsCallback from "@/lib/hooks/useReturnToQueryResultsCallback";
 import SelectWithSearch from "./components/SelectWithSearch";
-import DeleteCarDialog from "../cars/components/DeleteCarDialog";
+import DeleteCarDialog from "../../components/DeleteCarDialog";
 
 const namedObjectSchema = z.object({
   id: z.number().min(1, "Id is required"),

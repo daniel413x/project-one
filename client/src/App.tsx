@@ -10,10 +10,10 @@ import {
 import RootPage from "./pages/root/RootPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import CarsPage from "./pages/cars/CarsPage";
-import CreateCarPage from "./pages/create-car/CreateCarPage";
+import CreateCarPage from "./pages/cars/routes/create-car/CreateCarPage";
 import PreviousHistoryItemProvider from "./components/providers/PreviousHistoryItemProvider";
 import MakesPage from "./pages/makes/MakesPage";
-import CreateMakePage from "./pages/create-makes/CreateMakePage";
+import CreateMakePage from "./pages/makes/routes/create-makes/CreateMakePage";
 
 function App() {
   return (
