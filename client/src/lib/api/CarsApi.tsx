@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 import qs from "query-string";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { CarFormValues } from "@/pages/create-car/CreateCarPage";
 import { errorCatch } from "../utils";
 import { CARS_API_ROUTE } from "../consts";
@@ -136,7 +136,8 @@ export const useUpdateCar = (id: string) => {
   };
 };
 
-export const useDeleteCar = (id: number) => {
+export const useDeleteCar = (id: number, returnTo?: string) => {
+  const navigate = useNavigate();
   const url = `${API_BASE_URL}/${CARS_API_ROUTE}/${id}`;
   const deleteCarReq: () => Promise<void> = async () => {
     const res = await fetch(url, {
@@ -152,6 +153,9 @@ export const useDeleteCar = (id: number) => {
     onSuccess: () => {
       queryClient.invalidateQueries(GET_CARS);
       toast.success("Car was deleted successfully");
+      if (returnTo) {
+        navigate(returnTo);
+      }
     },
   });
   if (error) {

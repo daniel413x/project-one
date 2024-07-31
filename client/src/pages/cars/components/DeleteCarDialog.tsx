@@ -16,15 +16,17 @@ import { ExclamationTriangleIcon, QuestionMarkCircledIcon } from "@radix-ui/reac
 interface DeleteCarDialogProps {
   children: ReactNode;
   car: Car;
+  returnTo?: string;
 }
 
 function DeleteCarDialog({
   children,
   car,
+  returnTo,
 }: DeleteCarDialogProps) {
   const {
     deleteCar,
-  } = useDeleteCar(car.id);
+  } = useDeleteCar(car.id, returnTo);
   const handleClickConfirm = async () => {
     await deleteCar();
   };

@@ -31,6 +31,7 @@ import { useEffect } from "react";
 import { format } from "date-fns";
 import useReturnToQueryResultsCallback from "@/lib/hooks/useReturnToQueryResultsCallback";
 import SelectWithSearch from "./components/SelectWithSearch";
+import DeleteCarDialog from "../cars/components/DeleteCarDialog";
 
 const namedObjectSchema = z.object({
   id: z.number().min(1, "Id is required"),
@@ -495,14 +496,19 @@ function CreateCarPage() {
                     {!fetchedCar ? "Create" : "Save"}
                   </Button>
                   {!fetchedCar ? null : (
-                    <Button
-                      type="button"
-                      disabled={blockForm}
-                      variant="destructive"
+                    <DeleteCarDialog
+                      car={fetchedCar}
+                      returnTo={`/${CARS_ROUTE}`}
                     >
-                      <Trash2 />
-                      Delete
-                    </Button>
+                      <Button
+                        type="button"
+                        disabled={blockForm}
+                        variant="destructive"
+                      >
+                        <Trash2 />
+                        Delete
+                      </Button>
+                    </DeleteCarDialog>
                   )}
                 </div>
               </form>
