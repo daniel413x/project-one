@@ -1,10 +1,11 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 import qs from "query-string";
 import { useSearchParams } from "react-router-dom";
 import { errorCatch } from "../utils";
 import { CARS_API_ROUTE, MAKES_API_ROUTE } from "../consts";
 import { MakesGETManyRes } from "../types";
+import queryClient from "./queryClient";
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
 
@@ -35,7 +36,8 @@ export const useGetMakes = () => {
   };
   const {
     data: fetchedMakes, isLoading, isError, error,
-  } = useQuery([url, GET_MAKES], getMakesReq);
+    // GET_MAKES must precede url for invalidation to work
+  } = useQuery([GET_MAKES, url], getMakesReq);
   if (error) {
     toast.error(errorCatch(error));
   }
@@ -53,7 +55,7 @@ export const useGetMakesForFormField = (search: string | undefined) => {
       size,
     },
   }, { skipNull: true });
-  const getMakeReq: () => Promise<MakesGETManyRes> = async () => {
+  const getMakesReq: () => Promise<MakesGETManyRes> = async () => {
     const res = await fetch(url, {
       method: "GET",
     });
@@ -64,7 +66,7 @@ export const useGetMakesForFormField = (search: string | undefined) => {
   };
   const {
     data: fetchedMakes, isLoading, isError, error,
-  } = useQuery([url, GET_MAKES], getMakeReq);
+  } = useQuery([url, GET_MAKES], getMakesReq);
   if (error) {
     toast.error(errorCatch(error));
   }
@@ -75,7 +77,7 @@ export const useGetMakesForFormField = (search: string | undefined) => {
 
 export const useGetCarsCount = (name: string) => {
   const url = `${API_BASE_URL}/${MAKES_API_ROUTE}/${name}/${CARS_API_ROUTE}/count`;
-  const getMakeReq: () => Promise<number> = async () => {
+  const getCarsCountReq: () => Promise<number> = async () => {
     const res = await fetch(url, {
       method: "GET",
     });
@@ -86,11 +88,37 @@ export const useGetCarsCount = (name: string) => {
   };
   const {
     data: fetchedMakes, isLoading, isError, error,
-  } = useQuery([url, GET_COUNT], getMakeReq);
+  } = useQuery([url, GET_COUNT], getCarsCountReq);
   if (error) {
     toast.error(errorCatch(error));
   }
   return {
     data: fetchedMakes, isLoading, isError, error,
+  };
+};
+
+export const useDeleteMake = (id: number) => {
+  const url = `${API_BASE_URL}/${MAKES_API_ROUTE}/${id}`;
+  const deleteMakeReq: () => Promise<void> = async () => {
+    const res = await fetch(url, {
+      method: "DELETE",
+    });
+    if (!res.ok) {
+      throw new Error("Failed delete make");
+    }
+  };
+  const {
+    mutate: deleteMake, isLoading, isError, error,
+  } = useMutation(deleteMakeReq, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(GET_MAKES);
+      toast.success("Make was deleted successfully");
+    },
+  });
+  if (error) {
+    toast.error(errorCatch(error));
+  }
+  return {
+    deleteMake, isLoading, isError, error,
   };
 };

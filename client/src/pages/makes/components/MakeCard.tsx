@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/common/shadcn/button";
 import {
   Car,
+  Trash2,
   Wrench,
 } from "lucide-react";
 import { Make } from "@/lib/types";
@@ -9,6 +10,7 @@ import { MAKES_ROUTE } from "@/lib/consts";
 import { useGetCarsCount } from "@/lib/api/MakesApi";
 import LoadingSpinner from "@/components/ui/common/LoadingSpinner";
 import MakeInfoDialog from "./MakeInfoDialog";
+import DeleteMakeDialog from "./DeleteMakeDialog";
 
 interface MakeCardProps {
   make: Make;
@@ -22,7 +24,7 @@ function MakeCard({
     navigate(`/${MAKES_ROUTE}/${make.id}`);
   };
   const {
-    data: totalCars,
+    data: carsCount,
     isLoading: isLoadingGetCarsCount,
   } = useGetCarsCount(make.name);
   return (
@@ -37,7 +39,7 @@ function MakeCard({
           {make.name}
         </span>
       </div>
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="grid sm:grid-cols-3 gap-4">
         <Button
           variant="outline"
           onClick={navigateToMakeEditPage}
@@ -47,9 +49,14 @@ function MakeCard({
         <MakeInfoDialog make={make}>
           <Button variant="outline">
             <Car className="text-stone-700 mr-1" />
-            {isLoadingGetCarsCount ? <LoadingSpinner /> : `(${totalCars})`}
+            {isLoadingGetCarsCount ? <LoadingSpinner /> : `(${carsCount})`}
           </Button>
         </MakeInfoDialog>
+        <DeleteMakeDialog make={make} carsCount={carsCount}>
+          <Button variant="outline">
+            <Trash2 className="text-red-700 mr-1" />
+          </Button>
+        </DeleteMakeDialog>
       </div>
     </div>
   );
