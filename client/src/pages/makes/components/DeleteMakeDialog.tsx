@@ -44,7 +44,7 @@ function DeleteMakeAlertDialog({
           </AlertDialogTitle>
         </AlertDialogHeader>
         <div className="flex gap-1 text-orange-700">
-          <QuestionMarkCircledIcon className="w-8 h-8" />
+          <QuestionMarkCircledIcon className="w-8 h-8 shrink-0" />
           <span className="font-semibold">
             Are you sure you want to delete the make
             {" "}

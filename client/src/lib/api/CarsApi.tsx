@@ -6,6 +6,7 @@ import { CarFormValues } from "@/pages/create-car/CreateCarPage";
 import { errorCatch } from "../utils";
 import { CARS_API_ROUTE } from "../consts";
 import { Car, CarsGETManyRes } from "../types";
+import queryClient from "./queryClient";
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
 
@@ -36,7 +37,7 @@ export const useGetCars = () => {
   };
   const {
     data: fetchedCars, isLoading, isError, error,
-  } = useQuery([url, GET_CARS], getCarsReq);
+  } = useQuery([GET_CARS, url], getCarsReq);
   if (error) {
     toast.error(errorCatch(error));
   }
@@ -132,5 +133,31 @@ export const useUpdateCar = (id: string) => {
   } = useMutation(updateCarReq);
   return {
     updateCar, isLoading, isError, isSuccess,
+  };
+};
+
+export const useDeleteCar = (id: number) => {
+  const url = `${API_BASE_URL}/${CARS_API_ROUTE}/${id}`;
+  const deleteCarReq: () => Promise<void> = async () => {
+    const res = await fetch(url, {
+      method: "DELETE",
+    });
+    if (!res.ok) {
+      throw new Error("Failed delete car");
+    }
+  };
+  const {
+    mutate: deleteCar, isLoading, isError, error,
+  } = useMutation(deleteCarReq, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(GET_CARS);
+      toast.success("Car was deleted successfully");
+    },
+  });
+  if (error) {
+    toast.error(errorCatch(error));
+  }
+  return {
+    deleteCar, isLoading, isError, error,
   };
 };
