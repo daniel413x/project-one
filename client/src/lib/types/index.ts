@@ -21,6 +21,7 @@ export interface Owner {
 export interface Model {
   id: number;
   name: string;
+  makeName?: string;
 }
 
 export interface Make {

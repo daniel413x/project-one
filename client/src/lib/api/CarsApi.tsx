@@ -144,7 +144,7 @@ export const useDeleteCar = (id: number, returnTo?: string) => {
       method: "DELETE",
     });
     if (!res.ok) {
-      throw new Error("Failed delete car");
+      throw new Error("failed to delete car");
     }
   };
   const {

@@ -14,10 +14,13 @@ public class ModelDto {
     public ModelDto(Model model) {
       this.setId(model.getId());
       this.setName(model.getName());
+      this.setMakeName(model.getMake().getName());
     }
 
     private Integer id;
 
     private String name;
+
+    private String makeName;
     
 }
