@@ -1,4 +1,4 @@
-package com.warehouse.dtos;
+package com.warehouse.dtos.color;
 
 import com.warehouse.models.Color;
 

@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.warehouse.dtos.CarDto;
-import com.warehouse.dtos.CarGETResDto;
-import com.warehouse.dtos.CarPOSTDto;
-import com.warehouse.dtos.CarPUTDto;
+import com.warehouse.dtos.car.CarDto;
+import com.warehouse.dtos.car.CarGETResDto;
+import com.warehouse.dtos.car.CarPOSTDto;
+import com.warehouse.dtos.car.CarPUTDto;
 import com.warehouse.services.CarService;
 
 import jakarta.validation.Valid;

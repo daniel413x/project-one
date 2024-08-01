@@ -1,4 +1,4 @@
-package com.warehouse.dtos;
+package com.warehouse.dtos.owner;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ColorPOSTDto {
+public class OwnerPOSTDto {
     private String name;
 }

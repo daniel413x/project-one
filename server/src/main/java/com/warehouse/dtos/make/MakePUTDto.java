@@ -1,4 +1,4 @@
-package com.warehouse.dtos;
+package com.warehouse.dtos.make;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarPUTDto extends CarPOSTDto {
+public class MakePUTDto extends MakePOSTDto {
     private int id;
 }

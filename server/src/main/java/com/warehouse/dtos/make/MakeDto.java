@@ -1,8 +1,9 @@
-package com.warehouse.dtos;
+package com.warehouse.dtos.make;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.warehouse.dtos.model.ModelDto;
 import com.warehouse.models.Make;
 
 import lombok.AllArgsConstructor;

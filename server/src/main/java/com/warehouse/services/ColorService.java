@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.warehouse.dtos.ColorGETResDto;
+import com.warehouse.dtos.color.ColorGETResDto;
 import com.warehouse.models.Color;
 import com.warehouse.repositories.ColorRepository;
 

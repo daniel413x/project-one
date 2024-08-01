@@ -1,9 +1,10 @@
-package com.warehouse.dtos;
+package com.warehouse.dtos.owner;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 
+import com.warehouse.dtos.Pagination;
 import com.warehouse.models.Owner;
 
 public class OwnerGETResDto {

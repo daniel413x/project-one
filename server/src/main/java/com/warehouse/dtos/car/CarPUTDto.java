@@ -1,4 +1,4 @@
-package com.warehouse.dtos;
+package com.warehouse.dtos.car;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OwnerPOSTDto {
-    private String name;
+public class CarPUTDto extends CarPOSTDto {
+    private int id;
 }

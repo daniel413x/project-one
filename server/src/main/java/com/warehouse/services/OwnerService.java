@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.warehouse.dtos.OwnerGETResDto;
+import com.warehouse.dtos.owner.OwnerGETResDto;
 import com.warehouse.models.Owner;
 import com.warehouse.repositories.OwnerRepository;
 

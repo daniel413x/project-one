@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.warehouse.dtos.ColorGETResDto;
+import com.warehouse.dtos.color.ColorGETResDto;
 import com.warehouse.services.ColorService;
 
 

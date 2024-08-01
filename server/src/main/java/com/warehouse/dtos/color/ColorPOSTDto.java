@@ -1,4 +1,4 @@
-package com.warehouse.dtos;
+package com.warehouse.dtos.color;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MakePOSTDto {
+public class ColorPOSTDto {
     private String name;
-    
-    private String logoUrl;
 }

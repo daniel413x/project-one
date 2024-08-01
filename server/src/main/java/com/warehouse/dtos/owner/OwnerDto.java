@@ -1,4 +1,4 @@
-package com.warehouse.dtos;
+package com.warehouse.dtos.owner;
 
 import com.warehouse.models.Owner;
 

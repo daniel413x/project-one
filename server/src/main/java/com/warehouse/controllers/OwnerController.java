@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.warehouse.dtos.OwnerGETResDto;
+import com.warehouse.dtos.owner.OwnerGETResDto;
 import com.warehouse.models.Owner;
 import com.warehouse.services.OwnerService;
 

@@ -1,4 +1,4 @@
-package com.warehouse.dtos;
+package com.warehouse.dtos.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ModelPOSTDto {
-    private String name;
-
-    private int makeId;
+public class ModelPUTDto extends ModelPOSTDto {
+    private int id;
 }

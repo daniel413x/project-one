@@ -1,4 +1,4 @@
-package com.warehouse.dtos;
+package com.warehouse.dtos.car;
 
 import java.math.BigDecimal;
 import java.util.Date;

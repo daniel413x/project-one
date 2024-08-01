@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.warehouse.dtos.ModelGETResDto;
-import com.warehouse.dtos.ModelPOSTDto;
-import com.warehouse.dtos.ModelPUTDto;
+import com.warehouse.dtos.model.ModelGETResDto;
+import com.warehouse.dtos.model.ModelPOSTDto;
+import com.warehouse.dtos.model.ModelPUTDto;
 import com.warehouse.models.Model;
 import com.warehouse.services.MakeService;
 import com.warehouse.services.ModelService;

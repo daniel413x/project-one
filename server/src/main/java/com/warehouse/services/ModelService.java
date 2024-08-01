@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.warehouse.dtos.ModelGETResDto;
-import com.warehouse.dtos.ModelPOSTDto;
-import com.warehouse.dtos.ModelPUTDto;
+import com.warehouse.dtos.model.ModelGETResDto;
+import com.warehouse.dtos.model.ModelPOSTDto;
+import com.warehouse.dtos.model.ModelPUTDto;
 import com.warehouse.models.Make;
 import com.warehouse.models.Model;
 import com.warehouse.repositories.CarRepository;

@@ -7,10 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.warehouse.dtos.CarDto;
-import com.warehouse.dtos.CarGETResDto;
-import com.warehouse.dtos.CarPOSTDto;
-import com.warehouse.dtos.CarPUTDto;
+import com.warehouse.dtos.car.CarDto;
+import com.warehouse.dtos.car.CarGETResDto;
+import com.warehouse.dtos.car.CarPOSTDto;
+import com.warehouse.dtos.car.CarPUTDto;
 import com.warehouse.models.Car;
 import com.warehouse.models.Color;
 import com.warehouse.models.Make;

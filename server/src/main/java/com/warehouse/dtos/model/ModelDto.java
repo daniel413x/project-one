@@ -1,5 +1,6 @@
-package com.warehouse.dtos;
+package com.warehouse.dtos.model;
 
+import com.warehouse.dtos.make.MakeDto;
 import com.warehouse.models.Make;
 import com.warehouse.models.Model;
 
