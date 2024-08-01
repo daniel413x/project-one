@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.warehouse.dtos.MakeDto;
 import com.warehouse.dtos.MakeGETResDto;
 import com.warehouse.dtos.MakePOSTDto;
 import com.warehouse.dtos.MakePUTDto;
@@ -43,7 +44,7 @@ public class MakeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Make> findById(@PathVariable int id) {
+    public ResponseEntity<MakeDto> findById(@PathVariable int id) {
         return ResponseEntity.ok(makeService.findById(id));
     }
 

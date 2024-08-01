@@ -17,26 +17,30 @@ import com.warehouse.models.Make;
 import com.warehouse.models.Model;
 import com.warehouse.models.Owner;
 import com.warehouse.repositories.CarRepository;
+import com.warehouse.repositories.ColorRepository;
+import com.warehouse.repositories.MakeRepository;
+import com.warehouse.repositories.ModelRepository;
+import com.warehouse.repositories.OwnerRepository;
 
 @Service
 public class CarService {
 
     final private CarRepository carRepository;
 
-    final private MakeService makeService;
+    final private MakeRepository makeRepository;
 
-    final private ModelService modelService;
+    final private ModelRepository modelRepository;
 
-    final private OwnerService ownerService;
+    final private OwnerRepository ownerRepository;
 
-    final private ColorService colorService;
+    final private ColorRepository colorRepository;
 
-    public CarService(CarRepository carRepository, MakeService makeService, ModelService modelService, OwnerService ownerService, ColorService colorService) {
+    public CarService(CarRepository carRepository, MakeRepository makeRepository, ModelRepository modelRepository, OwnerRepository ownerRepository, ColorRepository colorRepository) {
         this.carRepository = carRepository;
-        this.makeService = makeService;
-        this.modelService = modelService;
-        this.ownerService = ownerService;
-        this.colorService = colorService;
+        this.makeRepository = makeRepository;
+        this.modelRepository = modelRepository;
+        this.ownerRepository = ownerRepository;
+        this.colorRepository = colorRepository;
     }
 
     // this is where the repository takes the pageable object and returns queried objects grouped by page
@@ -78,32 +82,14 @@ public class CarService {
         return res;
     }
 
-    public Optional<Car> findById(int id) {
-        return carRepository.findById(id);
-    }
-
-// TODO: separate from CarService
-    private Car carMapper(Car car, CarPOSTDto carForm) {
-        Model model = modelService.findById(carForm.getModelId());
-        Make make = makeService.findById(carForm.getMakeId());
-        Owner owner = ownerService.findById(carForm.getOwnerId())
-                .orElseThrow(() -> new RuntimeException("Owner not found"));
-        Color color = colorService.findById(carForm.getColorId())
-                .orElseThrow(() -> new RuntimeException("Color not found"));
-        car.setColor(color);
-        car.setOwner(owner);
-        car.setMake(make);
-        car.setModel(model);
-        car.setRegistrationNumber(carForm.getRegistrationNumber());
-        car.setInsuranceExpiration(carForm.getInsuranceExpiration());
-        car.setRegistrationExpiration(carForm.getRegistrationExpiration());
-        car.setInsurancePolicyNumber(carForm.getInsurancePolicyNumber());
-        car.setLastMaintenanceDate(carForm.getLastMaintenanceDate());
-        car.setMileage(carForm.getMileage());
-        car.setPrice(carForm.getPrice());
-        car.setVin(carForm.getVin());
-        car.setYear(carForm.getYear());
-        return car;
+    public CarDto findById(int id) {
+        Optional<Car> car = carRepository.findById(id);
+        if (car.isPresent()) {
+            CarDto dto = new CarDto(car.get());
+            return dto;
+        }
+        else 
+            throw new RuntimeException("Car not found");
     }
 
     public CarDto save(CarPOSTDto carForm) {
@@ -121,6 +107,31 @@ public class CarService {
         }
         if (!carRepository.existsById(id)) 
             throw new NoSuchElementException("Car with id " + id + " does not exist");
+    }
+
+    private Car carMapper(Car car, CarPOSTDto carForm) {
+        Model model = modelRepository.findById(carForm.getModelId())
+                .orElseThrow(() -> new RuntimeException("Model not found"));
+        Make make = makeRepository.findById(carForm.getMakeId())
+                .orElseThrow(() -> new RuntimeException("Make not found"));
+        Owner owner = ownerRepository.findById(carForm.getOwnerId())
+                .orElseThrow(() -> new RuntimeException("Owner not found"));
+        Color color = colorRepository.findById(carForm.getColorId())
+                .orElseThrow(() -> new RuntimeException("Color not found"));
+        car.setColor(color);
+        car.setOwner(owner);
+        car.setMake(make);
+        car.setModel(model);
+        car.setRegistrationNumber(carForm.getRegistrationNumber());
+        car.setInsuranceExpiration(carForm.getInsuranceExpiration());
+        car.setRegistrationExpiration(carForm.getRegistrationExpiration());
+        car.setInsurancePolicyNumber(carForm.getInsurancePolicyNumber());
+        car.setLastMaintenanceDate(carForm.getLastMaintenanceDate());
+        car.setMileage(carForm.getMileage());
+        car.setPrice(carForm.getPrice());
+        car.setVin(carForm.getVin());
+        car.setYear(carForm.getYear());
+        return car;
     }
 
     public void deleteById(int id) {

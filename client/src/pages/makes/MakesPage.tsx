@@ -22,7 +22,6 @@ function MakesPage() {
     data,
     isLoading: isLoadingGET,
   } = useGetMakes();
-  console.log(data);
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
   const searchedName = searchParams.get("search") || "";

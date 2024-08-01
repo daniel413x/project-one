@@ -22,7 +22,6 @@ import com.warehouse.dtos.CarDto;
 import com.warehouse.dtos.CarGETResDto;
 import com.warehouse.dtos.CarPOSTDto;
 import com.warehouse.dtos.CarPUTDto;
-import com.warehouse.models.Car;
 import com.warehouse.services.CarService;
 
 import jakarta.validation.Valid;
@@ -48,12 +47,8 @@ public class CarController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Car> findById(@PathVariable int id) {
-        Optional<Car> car = carService.findById(id);
-        if (car.isPresent())
-            return ResponseEntity.ok(car.get());
-        else 
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<CarDto> findById(@PathVariable int id) {
+        return ResponseEntity.ok(carService.findById(id));
     }
 
     // save Car and return it as a dto

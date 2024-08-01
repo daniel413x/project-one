@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.warehouse.dtos.MakeDto;
 import com.warehouse.dtos.MakeGETResDto;
 import com.warehouse.dtos.MakePOSTDto;
 import com.warehouse.dtos.MakePUTDto;
@@ -40,10 +41,12 @@ public class MakeService {
         return res;
     }
 
-    public Make findById(int id) {
+    public MakeDto findById(int id) {
         Optional<Make> make = makeRepository.findById(id);
-        if (make.isPresent())
-            return make.get();
+        if (make.isPresent()) {
+            MakeDto dto = new MakeDto(make.get());
+            return dto;
+        }
         else 
             throw new RuntimeException("Make not found");
     }

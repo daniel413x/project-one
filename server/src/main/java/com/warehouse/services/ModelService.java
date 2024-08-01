@@ -12,6 +12,7 @@ import com.warehouse.dtos.ModelPUTDto;
 import com.warehouse.models.Make;
 import com.warehouse.models.Model;
 import com.warehouse.repositories.CarRepository;
+import com.warehouse.repositories.MakeRepository;
 import com.warehouse.repositories.ModelRepository;
 
 @Service
@@ -21,12 +22,13 @@ public class ModelService {
 
     final private CarRepository carRepository;
 
-    final private MakeService makeService;
 
-    public ModelService(ModelRepository modelRepository, MakeService makeService, CarRepository carRepository) {
+    final private MakeRepository makeRepository;
+
+    public ModelService(ModelRepository modelRepository, MakeRepository makeRepository, CarRepository carRepository) {
         this.modelRepository = modelRepository;
         this.carRepository = carRepository;
-        this.makeService = makeService;
+        this.makeRepository = makeRepository;
     }
 
     public ModelGETResDto findAll(Pageable pageable, @RequestParam Optional<String> search) {
@@ -70,7 +72,8 @@ public class ModelService {
     }
 
     private Model modelMapper(Model model, ModelPOSTDto modelForm) {
-        Make make = makeService.findById(modelForm.getMakeId());
+        Make make = makeRepository.findById(modelForm.getMakeId())
+            .orElseThrow(() -> new RuntimeException("Make not found"));
         model.setMake(make);
         model.setName(modelForm.getName());
         return model;
