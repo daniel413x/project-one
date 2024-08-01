@@ -78,8 +78,6 @@ export type CreateColorForm = {
 
 export const useCreateColor = () => {
   const createColorReq = async (data: CreateColorForm) => {
-    // there is no body because a restaurant is enthusiastically created in the backend
-    // with default values upon user registration
     const res = await fetch(`${API_BASE_URL}/${COLORS_API_ROUTE}`, {
       method: "POST",
       body: JSON.stringify(data),

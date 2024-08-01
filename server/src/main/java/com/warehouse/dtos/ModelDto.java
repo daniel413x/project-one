@@ -1,5 +1,6 @@
 package com.warehouse.dtos;
 
+import com.warehouse.models.Make;
 import com.warehouse.models.Model;
 
 import lombok.AllArgsConstructor;
@@ -17,10 +18,32 @@ public class ModelDto {
       this.setMakeName(model.getMake().getName());
     }
 
+    public ModelDto(int id, String name) {
+      this.setId(id);
+      this.setName(name);
+    }
+
+    public ModelDto(int id, String name, String makeName) {
+      this.setId(id);
+      this.setName(name);
+      this.setName(makeName);
+    }
+
+    public ModelDto(int id, String name, Make make) {
+      this.setId(id);
+      this.setName(name);
+      MakeDto makeDto = new MakeDto();
+      makeDto.setId(make.getId());
+      makeDto.setName(make.getName());
+      this.make = makeDto;
+    }
+
     private Integer id;
 
     private String name;
 
     private String makeName;
+
+    private MakeDto make;
     
 }

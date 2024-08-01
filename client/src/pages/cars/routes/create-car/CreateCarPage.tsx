@@ -26,17 +26,13 @@ import { toast } from "sonner";
 import { useCreateCar, useGetCar, useUpdateCar } from "@/lib/api/CarsApi";
 import {
   Car,
+  namedObjectSchema,
 } from "@/lib/types";
 import { useEffect } from "react";
 import { format } from "date-fns";
 import useReturnToQueryResultsCallback from "@/lib/hooks/useReturnToQueryResultsCallback";
-import SelectWithSearch from "./components/SelectWithSearch";
+import SelectWithSearch from "../../../../components/ui/common/SelectWithSearch";
 import DeleteCarDialog from "../../components/DeleteCarDialog";
-
-const namedObjectSchema = z.object({
-  id: z.number().min(1, "Id is required"),
-  name: z.string().min(1, "Name is required"),
-});
 
 const formSchema = z.object({
   vin: z.string().min(1),

@@ -84,10 +84,8 @@ public class CarService {
 
 // TODO: separate from CarService
     private Car carMapper(Car car, CarPOSTDto carForm) {
-        Model model = modelService.findById(carForm.getModelId())
-                .orElseThrow(() -> new RuntimeException("Model not found"));
-        Make make = makeService.findById(carForm.getMakeId())
-                .orElseThrow(() -> new RuntimeException("Make not found"));
+        Model model = modelService.findById(carForm.getModelId());
+        Make make = makeService.findById(carForm.getMakeId());
         Owner owner = ownerService.findById(carForm.getOwnerId())
                 .orElseThrow(() -> new RuntimeException("Owner not found"));
         Color color = colorService.findById(carForm.getColorId())

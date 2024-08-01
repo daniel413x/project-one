@@ -35,7 +35,6 @@ public class Model {
 
     @ManyToOne
     @JoinColumn(name = "make_id", nullable = false)
-    @JsonBackReference
     private Make make;
 
     @OneToMany(mappedBy = "model")

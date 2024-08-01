@@ -44,11 +44,7 @@ public class MakeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Make> findById(@PathVariable int id) {
-        Optional<Make> make = makeService.findById(id);
-        if (make.isPresent())
-            return ResponseEntity.ok(make.get());
-        else 
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(makeService.findById(id));
     }
 
     @GetMapping("/{name}/cars/count")

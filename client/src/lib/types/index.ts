@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 /* eslint-disable no-use-before-define */
 interface Pagination {
   page: number;
@@ -21,6 +23,7 @@ export interface Owner {
 export interface Model {
   id: number;
   name: string;
+  make?: Make;
   makeName?: string;
 }
 
@@ -62,3 +65,8 @@ export interface MakesGETManyRes extends GETManyRes<Make> { }
 export interface ModelsGETManyRes extends GETManyRes<Model> { }
 
 export interface OwnersGETManyRes extends GETManyRes<Owner> { }
+
+export const namedObjectSchema = z.object({
+  id: z.number().min(1, "Id is required"),
+  name: z.string().min(1, "Name is required"),
+});

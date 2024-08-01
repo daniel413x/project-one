@@ -21,6 +21,11 @@ public class MakeDto {
       this.setModels(make.getModels().stream().map(ModelDto::new).collect(Collectors.toList()));
     }
 
+    public MakeDto(int id, String name) {
+      this.setId(id);
+      this.setName(name);
+    }
+
     private Integer id;
 
     private String name;

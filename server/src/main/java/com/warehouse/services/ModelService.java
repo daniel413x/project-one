@@ -1,6 +1,5 @@
 package com.warehouse.services;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -9,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.warehouse.dtos.ModelGETResDto;
 import com.warehouse.dtos.ModelPOSTDto;
+import com.warehouse.dtos.ModelPUTDto;
+import com.warehouse.models.Make;
 import com.warehouse.models.Model;
 import com.warehouse.repositories.CarRepository;
 import com.warehouse.repositories.ModelRepository;
@@ -20,9 +21,12 @@ public class ModelService {
 
     final private CarRepository carRepository;
 
-    public ModelService(ModelRepository modelRepository, CarRepository carRepository) {
+    final private MakeService makeService;
+
+    public ModelService(ModelRepository modelRepository, MakeService makeService, CarRepository carRepository) {
         this.modelRepository = modelRepository;
         this.carRepository = carRepository;
+        this.makeService = makeService;
     }
 
     public ModelGETResDto findAll(Pageable pageable, @RequestParam Optional<String> search) {
@@ -39,9 +43,15 @@ public class ModelService {
         return res;
     }
 
-    public Optional<Model> findById(int id) {
-        return modelRepository.findById(id);
+    public Model findById(int id) {
+        Optional<Model> model = modelRepository.findByIdWithMake(id);
+        if (model.isPresent()) {
+            return model.get();
+        }
+        else 
+            throw new RuntimeException("Model not found");
     }
+
 
     public long getCarsCount(String name) {
         return carRepository.countByModelNameContainingIgnoreCase(name);
@@ -49,14 +59,21 @@ public class ModelService {
 
     public Model save(ModelPOSTDto modelForm) {
         Model model = new Model();
-        model.setName(modelForm.getName());
+        model = modelMapper(model, modelForm);
         return modelRepository.save(model);
     }
 
-    public void update(int id, Model model) {
-        if (!modelRepository.existsById(id)) 
-            throw new NoSuchElementException("Model with id " + id + " does not exist");
-        modelRepository.save(model);
+    public void save(int id, ModelPUTDto carForm) {
+        Model model = findById(id);
+        Model updatedModel = modelMapper(model, carForm);
+        modelRepository.save(updatedModel);
+    }
+
+    private Model modelMapper(Model model, ModelPOSTDto modelForm) {
+        Make make = makeService.findById(modelForm.getMakeId());
+        model.setMake(make);
+        model.setName(modelForm.getName());
+        return model;
     }
 
     public void deleteById(int id) {

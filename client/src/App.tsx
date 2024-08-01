@@ -16,6 +16,7 @@ import PreviousHistoryItemProvider from "./components/providers/PreviousHistoryI
 import MakesPage from "./pages/makes/MakesPage";
 import CreateMakePage from "./pages/makes/routes/create-makes/CreateMakePage";
 import ModelsPage from "./pages/models/ModelsPage";
+import CreateModelPage from "./pages/models/routes/create-models/CreateModelPage";
 
 function App() {
   return (
@@ -67,6 +68,14 @@ function App() {
             element={(
               <MainLayout>
                 <CreateMakePage />
+              </MainLayout>
+          )}
+          />
+          <Route
+            path={`/${MODELS_ROUTE}/:id`}
+            element={(
+              <MainLayout>
+                <CreateModelPage />
               </MainLayout>
           )}
           />

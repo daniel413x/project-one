@@ -40,8 +40,12 @@ public class MakeService {
         return res;
     }
 
-    public Optional<Make> findById(int id) {
-        return makeRepository.findById(id);
+    public Make findById(int id) {
+        Optional<Make> make = makeRepository.findById(id);
+        if (make.isPresent())
+            return make.get();
+        else 
+            throw new RuntimeException("Make not found");
     }
 
     public long getCarsCount(String name) {

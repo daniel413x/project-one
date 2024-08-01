@@ -12,12 +12,14 @@ import {
 } from "react";
 import { useEventListener } from "usehooks-ts";
 import useActiveElement from "@/lib/hooks/useActiveElement";
-import { CarForm } from "../CreateCarPage";
+import { UseFormReturn } from "react-hook-form";
 
 // define an object for any model that has a name and an id
 // as we are using several where there are relationships
 // such as make & car, model & car, color & car etc.
 export type NamedObject = { name: string; id: number; };
+
+type Form = UseFormReturn<any, any, undefined>;
 
 interface SelectWithSearchProps {
   // this prop should handle any react-query hook that returns
@@ -26,7 +28,7 @@ interface SelectWithSearchProps {
     data: GETManyRes<NamedObject> | undefined;
     isLoading: boolean;
   }
-  form: CarForm;
+  form: Form;
   name: "color" | "make" | "model" | "owner";
 }
 
