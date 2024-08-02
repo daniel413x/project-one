@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OwnerPOSTDto {
-    private String name;
+public class OwnerPUTDto extends OwnerPOSTDto {
+    private int id;
     
-    private String contact;
 }

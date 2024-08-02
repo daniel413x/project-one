@@ -10,3 +10,4 @@ export const MAKES_API_ROUTE = "makes";
 export const MODELS_API_ROUTE = "models";
 export const OWNERS_API_ROUTE = "owners";
 export const CAR_PLACEHOLDER_IMG_URL = "https://res.cloudinary.com/dbpwbih9m/image/upload/v1722294228/car_j0n6jb.png";
+export const USER_PLACEHOLDER_IMG_URL = "https://res.cloudinary.com/dbpwbih9m/image/upload/v1722552377/Sample_User_Icon_gaww2s.png";

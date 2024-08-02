@@ -7,6 +7,7 @@ import {
   DASHBOARD_ROUTE,
   MAKES_ROUTE,
   MODELS_ROUTE,
+  OWNERS_ROUTE,
 } from "./lib/consts";
 import RootPage from "./pages/root/RootPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
@@ -17,6 +18,8 @@ import MakesPage from "./pages/makes/MakesPage";
 import CreateMakePage from "./pages/makes/routes/create-makes/CreateMakePage";
 import ModelsPage from "./pages/models/ModelsPage";
 import CreateModelPage from "./pages/models/routes/create-models/CreateModelPage";
+import CreateOwnerPage from "./pages/owners/routes/create-owners/CreateOwnerPage";
+import OwnersPage from "./pages/owners/OwnersPage";
 
 function App() {
   return (
@@ -56,6 +59,14 @@ function App() {
           )}
           />
           <Route
+            path={`/${OWNERS_ROUTE}`}
+            element={(
+              <MainLayout>
+                <OwnersPage />
+              </MainLayout>
+          )}
+          />
+          <Route
             path={`/${CARS_ROUTE}/:id`}
             element={(
               <MainLayout>
@@ -68,6 +79,14 @@ function App() {
             element={(
               <MainLayout>
                 <CreateMakePage />
+              </MainLayout>
+          )}
+          />
+          <Route
+            path={`/${OWNERS_ROUTE}/:id`}
+            element={(
+              <MainLayout>
+                <CreateOwnerPage />
               </MainLayout>
           )}
           />

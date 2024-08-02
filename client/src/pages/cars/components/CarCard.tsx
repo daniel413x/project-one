@@ -41,13 +41,13 @@ function CarCard({
           Owner
         </span>
         <span className="truncate">
-          {car.owner.name}
+          {car.owner?.name || "N/A"}
         </span>
         <span className="font-bold">
           Contact
         </span>
         <span className="truncate">
-          {car.owner.contact}
+          {car.owner?.contact || "N/A"}
         </span>
       </div>
       <div className="grid sm:grid-cols-4 gap-4">

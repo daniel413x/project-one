@@ -7,15 +7,19 @@ import {
   DialogTrigger,
   DialogTitle,
 } from "@/components/ui/common/shadcn/dialog";
+import { Separator } from "@/components/ui/common/shadcn/separator";
+import LoadingSpinner from "@/components/ui/common/LoadingSpinner";
 
 interface OwnerInfoDialogProps {
   children: ReactNode;
-  owner?: Owner;
+  owner: Owner;
+  carsCount: number | undefined;
 }
 
 function OwnerInfoDialog({
   children,
   owner,
+  carsCount,
 }: OwnerInfoDialogProps) {
   return (
     <Dialog>
@@ -25,24 +29,27 @@ function OwnerInfoDialog({
       <DialogContent data-testid="owner-info-modal">
         <DialogHeader>
           <DialogTitle>
-            Vehicle owner information
+            Owner information
           </DialogTitle>
         </DialogHeader>
+        <Separator className="w-1/2 m-auto sm:m-[unset] " />
         <div className="flex flex-col">
           <span className="uppercase text-xs">
             name
           </span>
           <span>
-            {owner?.name || "N/A"}
+            {owner.name}
           </span>
         </div>
         <div className="flex flex-col">
           <span className="uppercase text-xs">
-            contact
+            cars owned in warehouse
           </span>
-          <span>
-            {owner?.contact || "N/A"}
-          </span>
+          {carsCount === undefined ? <LoadingSpinner /> : (
+            <span>
+              {`(${carsCount})`}
+            </span>
+          )}
         </div>
       </DialogContent>
     </Dialog>
