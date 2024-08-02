@@ -18,7 +18,7 @@ function MainLayout({
     >
       <div
         className="fixed min-h-screen w-full bg-no-repeat bg-cover bg-center -z-10"
-        style={{ backgroundImage: "url(https://res.cloudinary.com/dbpwbih9m/image/upload/v1722294215/bg-6_bofi3k.png)" }}
+        style={{ backgroundImage: "url(https://res.cloudinary.com/dbpwbih9m/image/upload/v1722613784/bg-7w_km6vwz.png)" }}
       />
       <Header />
       {noContainer ? children : (

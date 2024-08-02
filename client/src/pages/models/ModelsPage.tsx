@@ -30,7 +30,7 @@ function ModelsPage() {
   return (
     <Meta title="Models">
       <main>
-        <PageHeader header={`Models (${data?.pagination.count})`} icon={<ComputerIcon />} />
+        <PageHeader header={`Models ${data?.pagination.count ? `(${data?.pagination.count})` : ''}`} icon={<ComputerIcon />} />
         <ContentFrame mt>
           <div className="relative">
             <MagnifyingGlassIcon

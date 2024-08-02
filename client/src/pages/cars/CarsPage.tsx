@@ -30,7 +30,7 @@ function CarsPage() {
   return (
     <Meta title="Cars">
       <main>
-        <PageHeader header="Cars" icon={<ComputerIcon />} />
+        <PageHeader header={`Cars ${data?.pagination.count ? `(${data?.pagination.count})` : ''}`} icon={<ComputerIcon />} />
         <ContentFrame mt>
           <div className="relative">
             <MagnifyingGlassIcon
