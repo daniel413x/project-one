@@ -10,10 +10,8 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Input } from "@/components/ui/common/shadcn/input";
 import LoadingSpinner from "@/components/ui/common/LoadingSpinner";
 import PageControl from "@/components/ui/common/PageControl";
-import { useSearchParams } from "react-router-dom";
-import useDebounce from "@/lib/hooks/useDebounce";
-import { ChangeEvent, useState } from "react";
 import { cn } from "@/lib/utils";
+import usePaginatedQueriesLogic from "@/lib/hooks/usePaginatedQueriesLogic";
 import CarCard from "./components/CarCard";
 import CreateCarButton from "./components/CreateCarButton";
 
@@ -22,46 +20,13 @@ function CarsPage() {
     data,
     isLoading: isLoadingGET,
   } = useGetCars();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const page = Number(searchParams.get("page")) || 1;
-  const searchedName = searchParams.get("search") || "";
-  const handleSetSearchParams = (query: Record<string, any>) => {
-    const url = new URLSearchParams(window.location.search);
-    const k = Object.keys(query);
-    for (let i = 0; i < k.length; i += 1) {
-      const prop = k[i];
-      if (query[prop] === "") {
-        url.delete(prop);
-      } else {
-        url.set(prop, query[prop]!);
-      }
-    }
-    setSearchParams(url);
-  };
-  const handleSetPage = (num: number) => {
-    window.scrollTo({
-      top: 0,
-    });
-    handleSetSearchParams({
-      page: num,
-      search: searchedName,
-    });
-  };
-  // will search by make name
-  const [search, setSearch] = useState<string>("");
-  const handleSetSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target?.value);
-  };
-  const handleClearSearch = () => {
-    setSearch("");
-  };
-  const handleSetDebouncedSearch = () => {
-    handleSetSearchParams({
-      search,
-      page: "",
-    });
-  };
-  useDebounce(search, 500, handleSetDebouncedSearch);
+  const {
+    page,
+    handleClearSearch,
+    handleSetSearch,
+    handleSetPage,
+    search,
+  } = usePaginatedQueriesLogic();
   return (
     <Meta title="Cars">
       <main>
