@@ -48,6 +48,7 @@ const usePaginatedQueriesLogic = () => {
     handleClearSearch,
     handleSetSearch,
     handleSetPage,
+    search,
   };
 };
 
