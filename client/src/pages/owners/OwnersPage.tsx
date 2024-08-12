@@ -53,9 +53,11 @@ function OwnersPage() {
               <XIcon />
             </button>
           </div>
-          <ul className={cn("grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-4 min-h-screen", {
-            "flex justify-center pt-4": isLoadingGET,
-          })}
+          <ul
+            className={cn("grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-4 min-h-screen", {
+              "flex justify-center pt-4": isLoadingGET,
+            })}
+            id="results"
           >
             {isLoadingGET ? <LoadingSpinner /> : <CreateOwnerButton />}
             {data?.rows.map((owner) => (

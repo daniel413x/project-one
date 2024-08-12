@@ -44,7 +44,7 @@ export interface Car {
   vin: string;
   make: Make;
   model: Model;
-  owner: Owner;
+  owner?: Owner;
   color: Color;
   year: number;
   price: number;
