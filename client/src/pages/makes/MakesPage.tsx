@@ -30,7 +30,7 @@ function MakesPage() {
   return (
     <Meta title="Makes">
       <main>
-        <PageHeader header={`Makes (${data?.pagination.count})`} icon={<ComputerIcon />} />
+        <PageHeader header={`Makes ${data?.pagination.count ? `(${data?.pagination.count})` : ''}`} icon={<ComputerIcon />} />
         <ContentFrame mt>
           <div className="relative">
             <MagnifyingGlassIcon

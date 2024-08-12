@@ -6,7 +6,7 @@ function CreateCarButton() {
   const navigate = useNavigate();
   return (
     <button
-      className="flex flex-col py-2 px-4 border"
+      className="flex flex-col py-2 px-4 border h-max"
       type="button"
       onClick={() => navigate(`/${CARS_ROUTE}/${CREATE_ROUTE}`)}
     >

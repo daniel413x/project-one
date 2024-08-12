@@ -24,7 +24,7 @@ function MobileNav() {
             </span>
           ) : (
             <span>
-              Welcome to ChowTown Managers.
+              Welcome to Warehouse Admins.
             </span>
           )}
         </SheetTitle>
