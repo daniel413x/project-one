@@ -5,6 +5,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function toKebabCase(str: string) {
+  return str.toLowerCase().split(" ").join("-");
+}
+
 export const errorCatch = (error: any): string => {
   if (typeof error === "string") {
     return error;

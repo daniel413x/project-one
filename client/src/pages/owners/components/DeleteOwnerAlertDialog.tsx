@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/common/shadcn/alert-dialog";
 import { useDeleteOwner } from "@/lib/api/OwnersApi";
 import { ExclamationTriangleIcon, QuestionMarkCircledIcon } from "@radix-ui/react-icons";
+import { toKebabCase } from "@/lib/utils";
 
 interface DeleteOwnerAlertDialogProps {
   children: ReactNode;
@@ -38,7 +39,7 @@ function DeleteOwnerAlertDialog({
       <AlertDialogTrigger asChild>
         {children}
       </AlertDialogTrigger>
-      <AlertDialogContent data-testid="owner-info-modal">
+      <AlertDialogContent id={`delete-owner-${toKebabCase(owner.name)}-dialog`} data-testid="owner-info-modal">
         <AlertDialogHeader>
           <AlertDialogTitle>
             Delete owner

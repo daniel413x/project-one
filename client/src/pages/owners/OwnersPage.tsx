@@ -30,7 +30,7 @@ function OwnersPage() {
   return (
     <Meta title="Owners">
       <main>
-        <PageHeader header={`Owners ${data?.pagination.count ? `(${data?.pagination.count})` : ''}`} icon={<ComputerIcon />} />
+        <PageHeader header={`Owners ${data?.pagination.count ? `(${data?.pagination.count})` : ""}`} icon={<ComputerIcon />} />
         <ContentFrame mt>
           <div className="relative">
             <MagnifyingGlassIcon

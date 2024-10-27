@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { USER_PLACEHOLDER_IMG_URL, OWNERS_ROUTE } from "@/lib/consts";
 import { useGetCarsCount } from "@/lib/api/OwnersApi";
 import LoadingSpinner from "@/components/ui/common/LoadingSpinner";
+import { toKebabCase } from "@/lib/utils";
 import OwnerInfoDialog from "./OwnerInfoDialog";
 import DeleteOwnerAlertDialog from "./DeleteOwnerAlertDialog";
 
@@ -53,7 +54,7 @@ function OwnerCard({
           </Button>
         </OwnerInfoDialog>
         <DeleteOwnerAlertDialog owner={owner} carsCount={carsCount}>
-          <Button variant="outline">
+          <Button variant="outline" id={`delete-owner-${toKebabCase(owner.name)}`}>
             <Trash2 className="text-red-700 mr-1" />
           </Button>
         </DeleteOwnerAlertDialog>
