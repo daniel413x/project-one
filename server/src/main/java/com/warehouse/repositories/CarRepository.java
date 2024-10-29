@@ -34,4 +34,9 @@ public interface CarRepository extends JpaRepository<Car, Integer> {
     @Transactional
     @Query("UPDATE Car c SET c.owner = null WHERE c.owner.id = :ownerId")
     void unassignOwnerFromCars(@Param("ownerId") int ownerId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "ALTER SEQUENCE cars_id_seq RESTART WITH 1", nativeQuery = true)
+    void resetIdSequence();
 }

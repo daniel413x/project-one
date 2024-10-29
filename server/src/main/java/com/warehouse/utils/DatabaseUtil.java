@@ -41,6 +41,7 @@ public class DatabaseUtil {
         carRepository.deleteAll();
         ownerRepository.deleteAll();
         colorRepository.deleteAll();
+        carRepository.resetIdSequence();
     }
 
     public void seedTheDatabase() {
