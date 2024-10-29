@@ -115,7 +115,9 @@ function SelectWithSearch({
     <div className="flex">
       {/* TODO: create handler */}
       <Select onValueChange={(v) => form.setValue(name, JSON.parse(v))}>
-        <SelectTrigger>
+        <SelectTrigger
+          data-testid={`${name}-dropdown-trigger`}
+        >
           <SelectValue
             placeholder={selected.name}
           />
@@ -129,6 +131,7 @@ function SelectWithSearch({
               onChange={handleChangeSearch}
               onKeyDown={onKeyDownInput}
               ref={inputRef}
+              data-testid={`${name}-dropdown-search-input`}
               autoFocus
             />
           </div>
@@ -139,6 +142,7 @@ function SelectWithSearch({
               <SelectItem
                 key={o.id}
                 id={`${name}-${i}`}
+                data-testid={`${name}-${i}`}
                 value={JSON.stringify(o)}
                 onClick={() => {
                   onSelect(o);
