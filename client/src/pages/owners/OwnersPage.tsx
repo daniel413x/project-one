@@ -50,7 +50,9 @@ function OwnersPage() {
               aria-label="Clear input"
               type="button"
             >
-              <XIcon />
+              <XIcon
+                aria-hidden="true"
+              />
             </button>
           </div>
           <ul

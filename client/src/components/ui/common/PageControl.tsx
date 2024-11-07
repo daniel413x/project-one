@@ -63,6 +63,7 @@ function PageControl({
                 "pointer-events-none cursor-none bg-gray-600 text-white border-none": page === num,
               })}
               data-testid={`pagination-page-button-${num}`}
+              aria-label={`page ${num}`}
             >
               {num}
             </PaginationLink>

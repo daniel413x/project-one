@@ -13,7 +13,7 @@ function MobileNav() {
   return (
     <Sheet>
       <SheetTrigger>
-        <Menu className="text-stone-500" />
+        <Menu className="text-stone-500" aria-label="open menu" />
       </SheetTrigger>
       <SheetContent className="space-y-3">
         <SheetTitle>

@@ -25,14 +25,14 @@ function CarCard({
     <div className="flex flex-col py-2 px-4 border">
       <img
         src={CAR_PLACEHOLDER_IMG_URL}
-        alt=""
+        alt={`${car.make.name} ${car.model.name} with ID ${car.id}`}
         className="w-full"
       />
       <div className="flex flex-col py-4">
         <span className="flex break-all sm:break-normal sm:truncate mb-1">
           <img
             src={car.make.logoUrl}
-            alt=""
+            alt={`${car.make.name} logo`}
             className="w-[24px] mr-1"
           />
           {`${car.make.name} ${car.model.name} ${car.vin}`}
@@ -54,17 +54,22 @@ function CarCard({
         <Button
           variant="outline"
           onClick={navigateToCarEditPage}
+          aria-label="Navigate to car edit page"
         >
           <Wrench className="text-stone-700 shrink-0" />
         </Button>
         <CarInfoDialog car={car}>
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            aria-label="Open car information box"
+          >
             <Info className="text-stone-700 shrink-0" />
           </Button>
         </CarInfoDialog>
         <OwnerInfoDialog owner={car.owner}>
           <Button
             variant="outline"
+            aria-label="Open car owner information box"
           >
             <User className="text-stone-700 shrink-0" />
           </Button>
@@ -72,6 +77,7 @@ function CarCard({
         <DeleteCarDialog car={car}>
           <Button
             variant="outline"
+            aria-label="Open delete car confirmation box"
           >
             <Trash2 className="text-red-700 shrink-0" />
           </Button>

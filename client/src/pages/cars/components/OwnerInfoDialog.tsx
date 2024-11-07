@@ -7,6 +7,7 @@ import {
   DialogTrigger,
   DialogTitle,
 } from "@/components/ui/common/shadcn/dialog";
+import ModalKeyValuePair from "@/components/ui/common/ModalKeyValuePair";
 
 interface OwnerInfoDialogProps {
   children: ReactNode;
@@ -28,22 +29,8 @@ function OwnerInfoDialog({
             Vehicle owner information
           </DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col">
-          <span className="uppercase text-xs">
-            name
-          </span>
-          <span>
-            {owner?.name || "N/A"}
-          </span>
-        </div>
-        <div className="flex flex-col">
-          <span className="uppercase text-xs">
-            contact
-          </span>
-          <span>
-            {owner?.contact || "N/A"}
-          </span>
-        </div>
+        <ModalKeyValuePair k="name" value={owner?.name || "N/A"} />
+        <ModalKeyValuePair k="contact" value={owner?.contact || "N/A"} />
       </DialogContent>
     </Dialog>
   );

@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/common/shadcn/dialog";
 import { format } from "date-fns";
 import { Separator } from "@/components/ui/common/shadcn/separator";
+import ModalKeyValuePair from "@/components/ui/common/ModalKeyValuePair";
 
 interface CarInfoDialogProps {
   children: ReactNode;
@@ -34,98 +35,43 @@ function CarInfoDialog({
           </DialogTitle>
         </DialogHeader>
         <Separator className="w-1/2 m-auto sm:m-[unset] " />
-        <div className="grid grid-cols-2 gap-6 mt-8">
-          <div className="flex flex-col">
-            <span className="uppercase text-xs">
-              vin
-            </span>
-            <span>
-              {car.vin}
-            </span>
-          </div>
+        <ul className="grid grid-cols-2 gap-6 mt-8">
+          <li>
+            <ModalKeyValuePair k="vin" value={car.vin} />
+          </li>
           <div className="w-full h-full bg-black/5" />
-          <div className="flex flex-col">
-            <span className="uppercase text-xs">
-              make
-            </span>
-            <span>
-              {car.make.name}
-            </span>
-          </div>
-          <div className="flex flex-col">
-            <span className="uppercase text-xs">
-              model
-            </span>
-            <span>
-              {car.model.name}
-            </span>
-          </div>
-          <div className="flex flex-col">
-            <span className="uppercase text-xs">
-              year
-            </span>
-            <span>
-              {car.year}
-            </span>
-          </div>
-          <div className="flex flex-col">
-            <span className="uppercase text-xs">
-              mileage
-            </span>
-            <span>
-              {car.mileage}
-            </span>
-          </div>
-          <div className="flex flex-col">
-            <span className="uppercase text-xs">
-              price (usd)
-            </span>
-            <span>
-              {car.price}
-            </span>
-          </div>
+          <li>
+            <ModalKeyValuePair k="make" value={car.make.name} />
+          </li>
+          <li>
+            <ModalKeyValuePair k="model" value={car.model.name} />
+          </li>
+          <li>
+            <ModalKeyValuePair k="year" value={car.year} />
+          </li>
+          <li>
+            <ModalKeyValuePair k="mileage" value={car.mileage} />
+          </li>
+          <li>
+            <ModalKeyValuePair k="price (USD)" value={car.price} />
+          </li>
           <div className="w-full h-full bg-black/5" />
-          <div className="flex flex-col">
-            <span className="uppercase text-xs">
-              registration no.
-            </span>
-            <span>
-              {car.registrationNumber}
-            </span>
-          </div>
-          <div className="flex flex-col">
-            <span className="uppercase text-xs">
-              registration exp.
-            </span>
-            <span>
-              {registrationExpiration}
-            </span>
-          </div>
-          <div className="flex flex-col">
-            <span className="uppercase text-xs">
-              insurance policy no.
-            </span>
-            <span>
-              {car.insurancePolicyNumber}
-            </span>
-          </div>
-          <div className="flex flex-col">
-            <span className="uppercase text-xs">
-              insurance exp.
-            </span>
-            <span>
-              {insuranceExpiration}
-            </span>
-          </div>
-          <div className="flex flex-col">
-            <span className="uppercase text-xs">
-              last maintenance date
-            </span>
-            <span>
-              {lastMaintenanceDate}
-            </span>
-          </div>
-        </div>
+          <li>
+            <ModalKeyValuePair k="registration no." ariaLabel="registration number" value={car.registrationNumber} />
+          </li>
+          <li>
+            <ModalKeyValuePair k="registration exp." ariaLabel="registration expiration" value={registrationExpiration} />
+          </li>
+          <li>
+            <ModalKeyValuePair k="insurance policy no." ariaLabel="insurance policy number" value={car.insurancePolicyNumber} />
+          </li>
+          <li>
+            <ModalKeyValuePair k="insurance exp." value={insuranceExpiration} />
+          </li>
+          <li>
+            <ModalKeyValuePair k="last maintenance date" value={lastMaintenanceDate} />
+          </li>
+        </ul>
       </DialogContent>
     </Dialog>
   );

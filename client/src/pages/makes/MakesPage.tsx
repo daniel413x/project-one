@@ -30,7 +30,7 @@ function MakesPage() {
   return (
     <Meta title="Makes">
       <main>
-        <PageHeader header={`Makes ${data?.pagination.count ? `(${data?.pagination.count})` : ''}`} icon={<ComputerIcon />} />
+        <PageHeader header={`Makes ${data?.pagination.count ? `(${data?.pagination.count})` : ""}`} icon={<ComputerIcon />} />
         <ContentFrame mt>
           <div className="relative">
             <MagnifyingGlassIcon
@@ -50,7 +50,9 @@ function MakesPage() {
               aria-label="Clear input"
               type="button"
             >
-              <XIcon />
+              <XIcon
+                aria-hidden="true"
+              />
             </button>
           </div>
           <ul className={cn("grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-4 min-h-screen", {
