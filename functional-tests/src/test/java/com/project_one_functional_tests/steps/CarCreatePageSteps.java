@@ -13,6 +13,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.deque.html.axecore.results.Results;
+import com.deque.html.axecore.selenium.AxeBuilder;
 import com.project_one_functional_tests.pages.CarCreatePage;
 import com.project_one_functional_tests.utils.HeadlessChromeDriver;
 import com.project_one_functional_tests.utils.ResetDatabase;
@@ -28,6 +30,8 @@ import io.cucumber.java.en.When;
 public class CarCreatePageSteps {
 
     private WebDriver driver = HeadlessChromeDriver.getDriver();
+    AxeBuilder axeBuilder = new AxeBuilder();
+    Results axeResults = axeBuilder.analyze(driver);
     private WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
     private CarCreatePage carCreatePage;
     private String testWarehouseName = "DC1";
@@ -185,6 +189,16 @@ public class CarCreatePageSteps {
         } catch (NoSuchElementException e) {
             System.out.println(e);
         }
+    }
+
+    @When("I assess axeResults")
+    public void iAssessAxeResults() {
+        System.out.println(axeResults.getViolations());
+    }
+
+    @Then("violations should be less than 1")
+    public void violationsShoulBeLessThan1() {
+        axeResults.violationFree();
     }
 
     // /**
