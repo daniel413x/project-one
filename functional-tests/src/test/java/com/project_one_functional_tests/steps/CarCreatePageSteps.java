@@ -3,25 +3,18 @@ package com.project_one_functional_tests.steps;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Duration;
-import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.deque.html.axecore.results.Results;
-import com.deque.html.axecore.selenium.AxeBuilder;
 import com.project_one_functional_tests.pages.CarCreatePage;
 import com.project_one_functional_tests.utils.HeadlessChromeDriver;
-import com.project_one_functional_tests.utils.ResetDatabase;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -29,23 +22,11 @@ import io.cucumber.java.en.When;
 
 public class CarCreatePageSteps {
 
-    private WebDriver driver = HeadlessChromeDriver.getDriver();
-    AxeBuilder axeBuilder = new AxeBuilder();
-    Results axeResults = axeBuilder.analyze(driver);
-    private WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+    WebDriver driver = HeadlessChromeDriver.getDriver();
+    public Actions actions = new Actions(driver);
+    // private WebDriverWait wait = new WebDriverWait(driver,
+    // Duration.ofSeconds(1));
     private CarCreatePage carCreatePage;
-    private String testWarehouseName = "DC1";
-    private String testMaxCapacity = "1800";
-    private String testStreetAddress = "4000 Connecticut Avenue NW";
-    private String testCity = "Washington";
-    private String testState = "District of Columbia"; // Go DC Statehood
-    private String testZipCode = "20009";
-    private Actions actions = new Actions(driver);
-
-    @BeforeAll
-    public static void resetDatabaseBeforeAll() {
-        ResetDatabase.run();
-    }
 
     @Before
     public void before() {
@@ -56,18 +37,17 @@ public class CarCreatePageSteps {
     public void after() {
         if (this.driver != null) {
             this.driver.quit();
-            ResetDatabase.run();
         }
     }
 
     @Given("I am on the car create page")
     public void iAmOnTheCarCreatePage() {
-        this.carCreatePage.get();
+        carCreatePage.get();
     }
 
     @Then("the make dropdown will be focused")
     public void iShouldBeAbleToFocusTheMakeDropdown() {
-        WebElement makeDropdown = driver.findElement(By.cssSelector("[data-testid='make-dropdown-trigger']"));
+        WebElement makeDropdown = carCreatePage.getMakeDropdown();
 
         // currently focused element
         WebElement focusedElement = driver.switchTo().activeElement();
@@ -77,14 +57,12 @@ public class CarCreatePageSteps {
 
     @And("I have opened the make dropdown")
     public void iHaveOpenedTheMakeDropdown() {
-        WebElement makeDropdown = driver.findElement(By.cssSelector("[data-testid='make-dropdown-trigger']"));
-
-        makeDropdown.click();
+        carCreatePage.openMakeDropdown();
     }
 
     @Then("I should see the third item in the list highlighted")
     public void iShouldSeeTheThirdItemInTheListHighlighted() {
-        WebElement thirdItem = driver.findElement(By.cssSelector("[data-testid='make-2']"));
+        WebElement thirdItem = carCreatePage.getMake2();
 
         // currently focused element
         WebElement focusedElement = driver.switchTo().activeElement();
@@ -94,7 +72,7 @@ public class CarCreatePageSteps {
 
     @Then("I should see the fourth item in the list highlighted")
     public void iShouldSeeTheFourthItemInTheListHighlighted() {
-        WebElement fourthItem = driver.findElement(By.cssSelector("[data-testid='make-4']"));
+        WebElement fourthItem = carCreatePage.getMake4();
 
         // currently focused element
         WebElement focusedElement = driver.switchTo().activeElement();
@@ -104,17 +82,12 @@ public class CarCreatePageSteps {
 
     @Then("the search input should be focused")
     public void theSearchInputShouldBeFocused() {
-        WebElement fourthItem = driver.findElement(By.cssSelector("[data-testid='make-dropdown-search-input']"));
-
-        // currently focused element
-        WebElement focusedElement = driver.switchTo().activeElement();
-
-        assertEquals(fourthItem, focusedElement);
+        carCreatePage.theSearchInputShouldBeFocused();
     }
 
     @Then("I should see an item in the list highlighted")
     public void iShouldSeeAnItemInTheListHighlighted() {
-        WebElement anItem = driver.findElement(By.cssSelector("[data-testid='make-0']"));
+        WebElement anItem = carCreatePage.getMake0();
 
         // currently focused element
         WebElement focusedElement = driver.switchTo().activeElement();
@@ -124,7 +97,7 @@ public class CarCreatePageSteps {
 
     // press tab 10 times to try and find the element with the passed in test id
     // string
-    private void tabTo(String testId) {
+    public void tabTo(String testId) {
         String selector = "[data-testid='" + testId + "']";
         WebElement itemToWhichToTab = driver.findElement(By.cssSelector(selector));
         WebElement focusedElement = driver.switchTo().activeElement();
@@ -184,137 +157,7 @@ public class CarCreatePageSteps {
 
     @Then("the form should have been submitted successfully")
     public void theFormShouldHaveBeenSubmittedSuccessfully() {
-        try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='New car created']")));
-        } catch (NoSuchElementException e) {
-            System.out.println(e);
-        }
+        carCreatePage.newCarCreatedNotificationAppeared();
     }
-
-    @When("I assess axeResults")
-    public void iAssessAxeResults() {
-        System.out.println(axeResults.getViolations());
-    }
-
-    @Then("violations should be less than 1")
-    public void violationsShoulBeLessThan1() {
-        axeResults.violationFree();
-    }
-
-    // /**
-    // * 01-warehouses.feature
-    // * Scenario: Warehouse are shown
-    // */
-
-    // @Then("I should see warehouses")
-    // public void iShouldSeeTheWarehouses() {
-    // assertTrue(this.carCreatePage.containsWarehouseWithName("CA1"));
-    // }
-
-    // /**
-    // * 02-warehouses-creation.feature
-    // * Scenario: A new warehouse is created
-    // */
-
-    // @And("I have opened the create warehouse form modal")
-    // public void iHaveOpenedTheCreateWarehouseFormModal() {
-    // this.carCreatePage.clickOnCreateWarehouseButton();
-    // }
-
-    // @When("I enter valid input for a new warehouse")
-    // public void iEnterValidInput() {
-    // this.carCreatePage.enterFormInputs(testWarehouseName, testMaxCapacity,
-    // testStreetAddress, testCity, testState,
-    // testZipCode);
-    // }
-
-    // @And("I press the warehouse form submit button")
-    // public void iPressTheSubmitButton() {
-    // this.carCreatePage.clickOnModalSubmitButton();
-    // }
-
-    // @Then("the created warehouse should appear in the list of warehouses")
-    // public void theCreatedWarehouseShouldAppearInTheListOfWarehouses() {
-    // assertTrue(this.carCreatePage.containsWarehouseWithName(testWarehouseName));
-    // }
-
-    // /**
-    // * 03-warehouse-update.feature, 04-warehouse-delete.feature
-    // * Features: Update warehouse, Delete warehouse
-    // */
-
-    // @And("I select the {string} icon on a warehouse card")
-    // public void iSelectTheIconOnACard(String iconType) {
-    // this.carCreatePage.selectIconOnCard(0, iconType);
-    // }
-
-    // /**
-    // * 03-warehouse-update.feature
-    // * Scenarios: Save warehouse update, Cancel warehouse update
-    // */
-
-    // @Then("I should see a form with pre-filled fields of current warehouse
-    // information")
-    // public void iShouldSeeWarehouseFormFieldsPrefilled() {
-    // assertTrue(this.carCreatePage.formFieldsContainCurrentWarehouseInformation());
-    // }
-
-    // @And("edit the Warehouse Name, Max Capacity, Street Address, City, State, and
-    // Zip Code fields")
-    // public void editWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode() {
-    // this.carCreatePage.editWarehouseNameMaxCapacityStreetAddressCityStateAndZipCode(testWarehouseName,
-    // testMaxCapacity, testStreetAddress, testCity, testState, testZipCode);
-    // }
-
-    // @Then("I should click the {string} button")
-    // public void iShouldClickTheButton(String buttonText) {
-    // this.carCreatePage.clickButtonInModal(buttonText);
-    // }
-
-    // @And("see the warehouse name, city, and state updated")
-    // public void seeWarehouseNameCityAndStateUpdated() {
-    // assertTrue(this.carCreatePage.savedCardIsUpdated(testWarehouseName,
-    // testCity, testState));
-    // }
-
-    // @And("see the warehouse name, city, and state unchanged")
-    // public void seeWarehouseNameCityAndStateUnchanged() {
-    // assertTrue(this.carCreatePage.canceledCardIsNotUpdated());
-    // }
-
-    // @Then("I should select the updated warehouse card")
-    // public void iShouldSelectUpdatedWarehouseCard() {
-    // this.carCreatePage.selectWarehouseCard(testWarehouseName);
-    // }
-
-    // @Then("I should select the unchanged warehouse card")
-    // public void iShouldSelectUnchangedWarehouseCard() {
-    // this.carCreatePage.selectWarehouseCard();
-    // }
-
-    // @And("see the max capacity updated")
-    // public void seeMaxCapacityUpdated() {
-    // assertTrue(this.carCreatePage.maxCapacityIsUpdated(testMaxCapacity));
-    // }
-
-    // @And("see the max capacity unchanged")
-    // public void seeMaxCapacityUnchanged() {
-    // assertTrue(this.carCreatePage.maxCapacityIsNotUpdated());
-    // }
-
-    // /**
-    // * 04-warehouse-delete.feature
-    // * Scenarios: Delete warehouse
-    // */
-
-    // @And("select Delete from the dropdown")
-    // public void selectDeleteFromDropdown() {
-    // this.carCreatePage.selectDeleteDropdownOption();
-    // }
-
-    // @Then("I should not see the warehouse card displayed")
-    // public void iShouldNotSeeWarehouseCardDisplayed() {
-    // assertTrue(this.carCreatePage.cardIsDeleted());
-    // }
 
 }
