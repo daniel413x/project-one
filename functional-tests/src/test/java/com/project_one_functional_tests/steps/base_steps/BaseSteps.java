@@ -1,4 +1,4 @@
-package com.project_one_functional_tests.steps;
+package com.project_one_functional_tests.steps.base_steps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -24,6 +24,8 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class BaseSteps {
+
+    private static final String baseUrl = System.getProperty("baseUrl", "http://localhost:3000");
 
     // Driver
     WebDriver driver = HeadlessChromeDriver.getDriver();
@@ -58,6 +60,18 @@ public class BaseSteps {
         for (int t = 0; t < n; t += 1) {
             actions.sendKeys(key).pause(Duration.ofMillis(200)).perform();
         }
+    }
+
+    // Navigate to the specified URL
+    @Given("I am on the route {string}")
+    public void iAmOnTheRoute(String string) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String url = baseUrl + string;
+        driver.get(url);
     }
 
     @Given("I press the arrow key down {int} times")

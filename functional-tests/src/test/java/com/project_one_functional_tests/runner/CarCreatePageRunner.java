@@ -12,6 +12,6 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 @IncludeEngines("cucumber")
 @SelectClasspathResource("com/features/car-create-page")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
-@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.project_one_functional_tests.steps")
+@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.project_one_functional_tests.steps.base_steps, com.project_one_functional_tests.steps.car_create_page_steps")
 public class CarCreatePageRunner {
 }

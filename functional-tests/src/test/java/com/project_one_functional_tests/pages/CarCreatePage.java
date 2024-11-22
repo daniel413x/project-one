@@ -26,7 +26,7 @@ public class CarCreatePage {
     AxeBuilder axeBuilder = new AxeBuilder();
     private WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
     Results axeResults;
-    private static final String url = "http://localhost:3000/cars/create";
+    private static final String url = System.getProperty("baseUrl", "http://localhost:3000") + "/cars/create";
 
     @FindBy(css = "[data-testid='make-dropdown-trigger']")
     private WebElement makeDropdown;

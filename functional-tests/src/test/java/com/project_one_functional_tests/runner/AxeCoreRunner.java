@@ -10,8 +10,8 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 
 @Suite
 @IncludeEngines("cucumber")
-@SelectClasspathResource("com/features/car-edit-page")
+@SelectClasspathResource("com/features/axe-core")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
-@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.project_one_functional_tests.steps")
-public class CarEditPageRunner {
+@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.project_one_functional_tests.steps.base_steps")
+public class AxeCoreRunner {
 }

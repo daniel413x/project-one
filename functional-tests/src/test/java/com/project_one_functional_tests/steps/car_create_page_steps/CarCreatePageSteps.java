@@ -1,4 +1,4 @@
-package com.project_one_functional_tests.steps;
+package com.project_one_functional_tests.steps.car_create_page_steps;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
