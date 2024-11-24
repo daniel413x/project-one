@@ -105,8 +105,19 @@ pipeline {
                 }
             }
         }
+        
+        stage('Publish HTML Report') {
+            steps {
+                publishHTML(target: [
+                    reportDir: 'functional-tests/target/extent-report',
+                    reportFiles: 'ExtentReport.html',
+                    reportName: 'Axe-core Accessibility Report',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true
+                ])
+            }
+        }
     }
-    
 
     post {
         always {
