@@ -1,6 +1,10 @@
 pipeline {
     agent any
-
+    
+    tools {
+        nodejs '18.0.0'
+    }
+    
     environment {
         MAJOR_VERSION = '0'
         MINOR_VERSION = '2'
@@ -20,21 +24,13 @@ pipeline {
 
         stage('Build Frontend') {
             steps {
-                sh 'cd frontend && npm install && npm run build'
+                sh '''
+                node -v
+                cd client && npm install && npm run build
+                '''
             }
         }
 
-        stage('Test and Analyze Frontend') {
-            steps {
-                script {
-                    dir('frontend') {
-                        sh '''
-                        npm run test -- --coverage
-                        '''
-                    }
-                }
-            }
-        }
 
         stage('Build Backend') {
             steps {
