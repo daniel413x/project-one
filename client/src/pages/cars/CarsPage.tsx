@@ -59,7 +59,7 @@ function CarsPage() {
             "flex justify-center pt-4": isLoadingGET,
           })}
           >
-            {isLoadingGET ? <LoadingSpinner /> : <CreateCarButton />}
+            {isLoadingGET ? <LoadingSpinner /> : <li><CreateCarButton /></li>}
             {data?.rows.map((car) => (
               <li key={car.id}>
                 <CarCard car={car} />

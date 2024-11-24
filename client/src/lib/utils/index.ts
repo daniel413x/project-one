@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function toKebabCase(str: string) {
-  return str.toLowerCase().split(" ").join("-");
+  return str.split(/\s|(?=[A-Z])/).join("-").toLowerCase();
 }
 
 export const errorCatch = (error: any): string => {

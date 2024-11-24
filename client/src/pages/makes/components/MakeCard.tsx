@@ -43,17 +43,24 @@ function MakeCard({
         <Button
           variant="outline"
           onClick={navigateToMakeEditPage}
+          aria-label="Navigate to make edit page"
         >
           <Wrench className="text-stone-700" />
         </Button>
         <MakeInfoDialog make={make}>
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            aria-label="Open make information box"
+          >
             <Car className="text-stone-700 mr-1" />
             {isLoadingGetCarsCount ? <LoadingSpinner /> : `(${carsCount})`}
           </Button>
         </MakeInfoDialog>
         <DeleteMakeDialog make={make} carsCount={carsCount}>
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            aria-label="Open delete make confirmation box"
+          >
             <Trash2 className="text-red-700 mr-1" />
           </Button>
         </DeleteMakeDialog>

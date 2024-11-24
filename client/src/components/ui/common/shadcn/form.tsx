@@ -10,7 +10,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 
-import { cn } from "@/lib/utils";
+import { cn, toKebabCase } from "@/lib/utils";
 import { Label } from "@/components/ui/common/shadcn/label";
 
 const Form = FormProvider;
@@ -108,9 +108,9 @@ const FormControl = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof Slot>
 >(({ ...props }, ref) => {
   const {
-    error, formItemId, formDescriptionId, formMessageId,
+    error, formItemId, formDescriptionId, formMessageId, name,
   } = useFormField();
-
+  const testIdName = toKebabCase(name);
   return (
     <Slot
       ref={ref}
@@ -121,6 +121,7 @@ const FormControl = React.forwardRef<
           : `${formDescriptionId} ${formMessageId}`
       }
       aria-invalid={!!error}
+      data-testid={`${testIdName}-input`}
       {...props}
     />
   );

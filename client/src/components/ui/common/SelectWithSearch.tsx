@@ -117,6 +117,7 @@ function SelectWithSearch({
       <Select onValueChange={(v) => form.setValue(name, JSON.parse(v))}>
         <SelectTrigger
           data-testid={`${name}-dropdown-trigger`}
+          aria-label={selected.name || `Please select a ${name}`}
         >
           <SelectValue
             placeholder={selected.name}

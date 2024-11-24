@@ -61,7 +61,7 @@ function OwnersPage() {
             })}
             id="results"
           >
-            {isLoadingGET ? <LoadingSpinner /> : <CreateOwnerButton />}
+            {isLoadingGET ? <LoadingSpinner /> : <li><CreateOwnerButton /></li>}
             {data?.rows.map((owner) => (
               <li key={owner.id}>
                 <OwnerCard

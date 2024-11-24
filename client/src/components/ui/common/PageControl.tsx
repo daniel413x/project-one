@@ -48,7 +48,7 @@ function PageControl({
             tabIndex={page === 1 ? -1 : 0}
             onClick={() => handleSetPage(page - 1)}
             className={cn({
-              "text-gray-300 pointer-events-none cursor-none border-none": page === 1,
+              "text-gray-500 pointer-events-none cursor-none border-none": page === 1,
             })}
             data-testid="pagination-prev-button"
           />
@@ -74,7 +74,7 @@ function PageControl({
             tabIndex={pageLimitReached ? -1 : 0}
             onClick={() => handleSetPage(page + 1)}
             className={cn({
-              "text-gray-300 pointer-events-none cursor-none border-none": pageLimitReached,
+              "text-gray-500 pointer-events-none cursor-none border-none": pageLimitReached,
             })}
             data-testid="pagination-next-button"
           />

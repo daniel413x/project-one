@@ -31,6 +31,8 @@ import {
 import { useEffect } from "react";
 import { format } from "date-fns";
 import useReturnToQueryResultsCallback from "@/lib/hooks/useReturnToQueryResultsCallback";
+import DateLabelInfo from "@/components/ui/common/DateLabelInfo";
+import LabelText from "@/components/ui/common/LabelText";
 import SelectWithSearch from "../../../../components/ui/common/SelectWithSearch";
 import DeleteCarDialog from "../../components/DeleteCarDialog";
 
@@ -261,10 +263,7 @@ function CreateCarPage() {
                     <FormItem>
                       <FormLabel>
                         VIN
-                        <span className="text-gray-500">
-                          {" "}
-                          &#40;alphanumeric&#41;
-                        </span>
+                        <LabelText string="alphanumeric" />
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -285,10 +284,7 @@ function CreateCarPage() {
                     <FormItem>
                       <FormLabel>
                         Year
-                        <span className="text-gray-500">
-                          {" "}
-                          &#40;whole number&#41;
-                        </span>
+                        <LabelText string="whole number" />
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -309,14 +305,8 @@ function CreateCarPage() {
                     <FormItem>
                       <FormLabel className="uppercase text-xs">
                         Price
-                        <span className="text-gray-500">
-                          {" "}
-                          &#40;USD&#41;
-                        </span>
-                        <span className="text-gray-500">
-                          {" "}
-                          &#40;whole number&#41;
-                        </span>
+                        <LabelText string="USD" />
+                        <LabelText string="whole number" />
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -337,10 +327,7 @@ function CreateCarPage() {
                     <FormItem>
                       <FormLabel>
                         Mileage
-                        <span className="text-gray-500">
-                          {" "}
-                          &#40;whole number&#41;
-                        </span>
+                        <LabelText string="whole number" />
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -362,10 +349,7 @@ function CreateCarPage() {
                       <FormItem>
                         <FormLabel>
                           Insurance Policy Number
-                          <span className="text-gray-500">
-                            {" "}
-                            &#40;alphanumeric&#41;
-                          </span>
+                          <LabelText string="alphanumeric" />
                         </FormLabel>
                         <FormControl>
                           <Input
@@ -386,19 +370,14 @@ function CreateCarPage() {
                       <FormItem className="flex flex-col justify-end">
                         <FormLabel className="h-[17px]">
                           Insurance Expiration
-                          <span className="text-gray-500">
-                            {" "}
-                            &#40;date&#41;
-                          </span>
+                          <DateLabelInfo />
                         </FormLabel>
                         <FormControl>
-                          <div className="flex">
-                            <Input
-                              disabled={isSubmitting}
-                              placeholder="MM/dd/yyyy"
-                              {...field}
-                            />
-                          </div>
+                          <Input
+                            disabled={isSubmitting}
+                            placeholder="01/01/2025"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -414,10 +393,7 @@ function CreateCarPage() {
                       <FormItem>
                         <FormLabel>
                           Registration Number
-                          <span className="text-gray-500">
-                            {" "}
-                            &#40;alphanumeric&#41;
-                          </span>
+                          <LabelText string="alphanumeric" />
                         </FormLabel>
                         <FormControl>
                           <Input
@@ -438,19 +414,14 @@ function CreateCarPage() {
                       <FormItem className="flex flex-col justify-end">
                         <FormLabel className="h-[17px]">
                           Registration Expiration
-                          <span className="text-gray-500">
-                            {" "}
-                            &#40;date&#41;
-                          </span>
+                          <DateLabelInfo />
                         </FormLabel>
                         <FormControl>
-                          <div className="flex">
-                            <Input
-                              disabled={isSubmitting}
-                              placeholder="MM/dd/yyyy"
-                              {...field}
-                            />
-                          </div>
+                          <Input
+                            disabled={isSubmitting}
+                            placeholder="01/01/2025"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -465,19 +436,14 @@ function CreateCarPage() {
                     <FormItem className="flex flex-col justify-end">
                       <FormLabel className="h-[17px]">
                         Last Maintenance Date
-                        <span className="text-gray-500">
-                          {" "}
-                          &#40;date&#41;
-                        </span>
+                        <DateLabelInfo />
                       </FormLabel>
                       <FormControl>
-                        <div className="flex">
-                          <Input
-                            disabled={isSubmitting}
-                            placeholder="MM/dd/yyyy"
-                            {...field}
-                          />
-                        </div>
+                        <Input
+                          disabled={isSubmitting}
+                          placeholder="01/01/2025"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -487,6 +453,7 @@ function CreateCarPage() {
                   <Button
                     disabled={blockForm}
                     type="submit"
+                    data-testid="form-submit-button"
                   >
                     <CloudUpload className="mr-1.5" strokeWidth={3} size={18} />
                     {!fetchedCar ? "Create" : "Save"}

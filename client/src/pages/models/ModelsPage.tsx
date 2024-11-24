@@ -59,7 +59,7 @@ function ModelsPage() {
             "flex justify-center pt-4": isLoadingGET,
           })}
           >
-            {isLoadingGET ? <LoadingSpinner /> : <CreateModelButton />}
+            {isLoadingGET ? <LoadingSpinner /> : <li><CreateModelButton /></li>}
             {data?.rows.map((model) => (
               <li key={model.id}>
                 <ModelCard

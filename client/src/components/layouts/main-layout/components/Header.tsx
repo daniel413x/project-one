@@ -9,7 +9,7 @@ import UsernameMenu from "./UsernameMenu";
 function Header() {
   const isAuthenticated = useIsAuthenticated();
   return (
-    <div
+    <header
       className="border-b-2 border-b-gray-500 py-6 bg-white h-[86px]"
     >
       <div className="container flex mx-auto justify-between items-center">
@@ -22,9 +22,9 @@ function Header() {
             alt="Company logo"
           />
         </Link>
-        <div className="hidden md:flex -my-16 h-16 overflow-x-auto max-w-100 flex-grow flex-shrink basis-auto">
+        <nav className="hidden md:flex -my-16 h-16 overflow-x-auto max-w-100 flex-grow flex-shrink basis-auto">
           <MainNav />
-        </div>
+        </nav>
         {!isAuthenticated ? null : (
           <>
             <div className="md:hidden" data-testid="mobile-menu">
@@ -36,7 +36,7 @@ function Header() {
           </>
         )}
       </div>
-    </div>
+    </header>
   );
 }
 

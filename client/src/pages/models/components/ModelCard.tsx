@@ -43,17 +43,24 @@ function ModelCard({
         <Button
           variant="outline"
           onClick={navigateToModelEditPage}
+          aria-label="Navigate to model edit page"
         >
           <Wrench className="text-stone-700" />
         </Button>
         <ModelInfoDialog model={model} carsCount={carsCount}>
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            aria-label="Open model information box"
+          >
             <Car className="text-stone-700 mr-1" />
             {isLoadingGetCarsCount ? <LoadingSpinner /> : `(${carsCount})`}
           </Button>
         </ModelInfoDialog>
         <DeleteModelAlertDialog model={model} carsCount={carsCount}>
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            aria-label="Open delete model confirmation box"
+          >
             <Trash2 className="text-red-700 mr-1" />
           </Button>
         </DeleteModelAlertDialog>

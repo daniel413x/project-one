@@ -44,17 +44,25 @@ function OwnerCard({
         <Button
           variant="outline"
           onClick={navigateToOwnerEditPage}
+          aria-label="Navigate to owner edit page"
         >
           <Wrench className="text-stone-700" />
         </Button>
         <OwnerInfoDialog owner={owner} carsCount={carsCount}>
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            aria-label="Open car owner information box"
+          >
             <Car className="text-stone-700 mr-1" />
             {isLoadingGetCarsCount ? <LoadingSpinner /> : `(${carsCount})`}
           </Button>
         </OwnerInfoDialog>
         <DeleteOwnerAlertDialog owner={owner} carsCount={carsCount}>
-          <Button variant="outline" id={`delete-owner-${toKebabCase(owner.name)}`}>
+          <Button
+            variant="outline"
+            id={`delete-owner-${toKebabCase(owner.name)}`}
+            aria-label="Open delete owner confirmation box"
+          >
             <Trash2 className="text-red-700 mr-1" />
           </Button>
         </DeleteOwnerAlertDialog>

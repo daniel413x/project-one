@@ -59,7 +59,7 @@ function MakesPage() {
             "flex justify-center pt-4": isLoadingGET,
           })}
           >
-            {isLoadingGET ? <LoadingSpinner /> : <CreateMakeButton />}
+            {isLoadingGET ? <LoadingSpinner /> : <li><CreateMakeButton /></li>}
             {data?.rows.map((make) => (
               <li key={make.id}>
                 <MakeCard
