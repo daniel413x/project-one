@@ -1,10 +1,9 @@
 package com.project_one_functional_tests.pages;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.time.Duration;
 import java.util.NoSuchElementException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -24,7 +23,6 @@ public class CarCreatePage {
     WebDriver driver = HeadlessChromeDriver.getDriver();
     private Actions actions = new Actions(driver);
     AxeBuilder axeBuilder = new AxeBuilder();
-    private WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
     Results axeResults;
     private static final String url = System.getProperty("baseUrl", "http://localhost:3000") + "/cars/create";
 
@@ -85,6 +83,7 @@ public class CarCreatePage {
 
     public void newCarCreatedNotificationAppeared() {
         try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='New car created']")));
         } catch (NoSuchElementException e) {
             System.out.println(e);
