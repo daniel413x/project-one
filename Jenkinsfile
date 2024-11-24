@@ -95,7 +95,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'CUCUMBER_PUBLISH_TOKEN', variable: 'CUCUMBER_TOKEN')]) {
                         sh '''
                             cd functional-tests
-                            mvn test -Dheadless=true -Dcucumber.publish.token=${CUCUMBER_TOKEN}
+                            mvn test -Dheadless=true -Dcucumber.publish.token=${CUCUMBER_TOKEN} -DserverApiUrl=http://localhost:5000/api
                         '''
                     }
 

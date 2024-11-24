@@ -1,9 +1,8 @@
 package com.project_one_functional_tests.steps.base_steps;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.time.Duration;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -25,7 +24,7 @@ import io.cucumber.java.en.When;
 
 public class BaseSteps {
 
-    private static final String baseUrl = System.getProperty("baseUrl", "http://localhost:3000");
+    private static final String clientUrl = System.getProperty("clientUrl", "http://localhost:3000");
 
     // Driver
     WebDriver driver = HeadlessChromeDriver.getDriver();
@@ -70,7 +69,7 @@ public class BaseSteps {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        String url = baseUrl + string;
+        String url = clientUrl + string;
         driver.get(url);
     }
 

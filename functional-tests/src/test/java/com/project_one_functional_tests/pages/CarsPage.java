@@ -14,7 +14,7 @@ public class CarsPage {
     WebDriver driver = HeadlessChromeDriver.getDriver();
     AxeBuilder axeBuilder = new AxeBuilder();
     Results axeResults;
-    private static final String url = System.getProperty("baseUrl", "http://localhost:3000") + "/cars";
+    private static final String url = System.getProperty("clientUrl", "http://localhost:3000") + "/cars";
 
     @FindBy(css = "[data-testid='make-dropdown-trigger']")
     private WebElement makeDropdown;
