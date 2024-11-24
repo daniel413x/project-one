@@ -27,18 +27,10 @@ pipeline {
         stage('Test and Analyze Frontend') {
             steps {
                 script {
-                    withSonarQubeEnv('SonarCloud') {
-                        dir('frontend') {
-                            sh '''
-                            npm run test -- --coverage
-                            npx sonar-scanner \
-                                -Dsonar.projectKey=mgmt-p1 \
-                                -Dsonar.projectName=inventory-mgmt-p1-frontend \
-                                -Dsonar.sources=src \
-                                -Dsonar.exclusions=**/__tests__/**,src/test/**,src/api/** \
-                                -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-                            '''
-                        }
+                    dir('frontend') {
+                        sh '''
+                        npm run test -- --coverage
+                        '''
                     }
                 }
             }
