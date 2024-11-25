@@ -12,7 +12,7 @@ public class ExtentReportsManager {
 
     public static ExtentReports getInstance() {
         if (extentReports == null) {
-            String reportPath = "target/reports/ExtentReport.html";
+            String reportPath = "target/extent-report/ExtentReport.html";
             ExtentSparkReporter sparkReporter = new ExtentSparkReporter(reportPath);
             extentReports = new ExtentReports();
             extentReports.attachReporter(sparkReporter);
