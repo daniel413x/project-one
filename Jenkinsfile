@@ -117,6 +117,12 @@ pipeline {
                 ])
             }
         }
+        
+        stage('Archive Reports') {
+            steps {
+                archiveArtifacts artifacts: 'functional-tests/target/extent-report/**/*', fingerprint: true
+            }
+        }
     }
 
     post {
@@ -125,3 +131,4 @@ pipeline {
         }
     }
 }
+publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'functional-tests/target/extent-report', reportFiles: 'ExtentReport.html', reportName: 'Axe-core Accessibility Report', reportTitles: '', useWrapperFileDirectly: true])
