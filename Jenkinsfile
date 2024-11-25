@@ -131,4 +131,3 @@ pipeline {
         }
     }
 }
-publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'functional-tests/target/extent-report', reportFiles: 'ExtentReport.html', reportName: 'Axe-core Accessibility Report', reportTitles: '', useWrapperFileDirectly: true])
