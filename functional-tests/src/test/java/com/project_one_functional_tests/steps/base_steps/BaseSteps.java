@@ -101,7 +101,7 @@ public class BaseSteps {
 
     @Then("there should be no violations")
     public void thereShouldBeNoViolations() {
-        extentTest.info("Checking accessibility violations count");
+        // extentTest.info("Checking accessibility violations count");
         boolean noViolations = axeResults.violationFree();
 
         try {
