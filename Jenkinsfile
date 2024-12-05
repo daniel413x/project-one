@@ -106,21 +106,9 @@ pipeline {
             }
         }
         
-        stage('Publish HTML Report') {
-            steps {
-                publishHTML(target: [
-                    reportDir: 'functional-tests/target/extent-report',
-                    reportFiles: 'ExtentReport.html',
-                    reportName: 'Axe-core Accessibility Report',
-                    keepAll: true,
-                    alwaysLinkToLastBuild: true
-                ])
-            }
-        }
-        
         stage('Archive Reports') {
             steps {
-                archiveArtifacts artifacts: 'functional-tests/target/extent-report/**/*', fingerprint: true
+                archiveArtifacts artifacts: 'functional-tests/target/extent-report/**/*, server/target/site/jacoco/index.html', fingerprint: true
             }
         }
     }

@@ -1,5 +1,5 @@
 @car-create-page
-Feature: Form Accessibility
+Feature: Form Keyboard Functionality
 
   Scenario: The form can be completed using only the keyboard
     Given I am on the car create page

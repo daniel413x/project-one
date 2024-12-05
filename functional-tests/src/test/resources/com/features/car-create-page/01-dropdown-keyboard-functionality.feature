@@ -1,5 +1,5 @@
 @car-create-page
-Feature: Dropdown Accessibility
+Feature: Dropdown Keyboard Functionality
 
   Scenario: Dropdowns are tab-accessible
     Given I am on the car create page

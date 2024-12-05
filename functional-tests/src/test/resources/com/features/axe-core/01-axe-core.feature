@@ -1,5 +1,5 @@
-@axe-core-car-edit-page
-Feature: axe-core results for CarEditPage
+@axe-core
+Feature: axe-core results for any page
 
   Scenario: Axecore generates results
     Given I am on the route "<route>"
