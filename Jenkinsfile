@@ -35,7 +35,7 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir('server') {
-                    sh 'cd server && mvn clean install -DskipTests=true -Dspring.profiles.active=build'
+                    sh 'mvn clean install -DskipTests=true -Dspring.profiles.active=build'
 
                     withSonarQubeEnv('SonarCloud') {
                         sh '''
