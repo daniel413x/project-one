@@ -35,7 +35,7 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir('server') {
-                    sh 'mvn clean install -DskipTests=true -Dspring.profiles.active=build'
+                    sh 'mvn clean verify -Dspring.profiles.active=build'
 
                     withSonarQubeEnv('SonarCloud') {
                         sh '''
@@ -120,7 +120,7 @@ pipeline {
         
         stage('Archive Reports') {
             steps {
-                archiveArtifacts artifacts: 'functional-tests/target/extent-report/**/*, server/target/site/jacoco/index.html', fingerprint: true
+                archiveArtifacts artifacts: 'functional-tests/target/extent-report/**/*.html, server/target/site/jacoco/index.html', fingerprint: true
             }
         }
     }
