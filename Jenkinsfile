@@ -34,7 +34,19 @@ pipeline {
 
         stage('Build Backend') {
             steps {
-                sh 'cd server && mvn clean install -DskipTests=true -Dspring.profiles.active=build'
+                dir('server') {
+                    sh 'cd server && mvn clean install -DskipTests=true -Dspring.profiles.active=build'
+
+                    withSonarQubeEnv('SonarCloud') {
+                        sh '''
+                        mvn sonar:sonar \
+                            -Dsonar.projectKey=daniel413x_project-one \
+                            -Dsonar.projectName=project-one-server \
+                            -Dsonar.java.binaries=target/classes \
+                            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+                        '''
+                    }
+                }
             }
         }
         
