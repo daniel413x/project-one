@@ -8,3 +8,7 @@ global.ResizeObserver = class ResizeObserver {
   unobserve() { }
   disconnect() { }
 }
+
+jest.mock('query-string', () => ({
+  stringifyUrl: jest.fn().mockImplementation(({ url, query }) => `${url}?${new URLSearchParams(query).toString()}`),
+}));

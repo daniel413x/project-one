@@ -25,23 +25,53 @@ pipeline {
 
         stage('Build Frontend') {
             steps {
-                sh '''
-                node -v
-                cd client && npm install && npm run build
-                '''
+                dir('client') {
+                    sh '''
+                    node -v
+                    npm install && npm run build
+                    '''
+                }
+            }
+        }
+
+        stage('Test Frontend') {
+            steps {
+                script {
+                    withSonarQubeEnv('SonarCloud') {
+                        dir('client') {
+                            sh '''
+                            npm run test -- --coverage
+                            npx sonar-scanner \
+                                -Dsonar.projectKey=daniel413x_project-one \
+                                -Dsonar.projectName=project-one-client-unit-tests \
+                                -Dsonar.sources=src \
+                                -Dsonar.exclusions=**/__tests__/**,src/test/** \
+                                -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+                            '''
+                        }
+                    }
+                }
             }
         }
 
         stage('Build Backend') {
             steps {
                 dir('server') {
-                    sh 'mvn clean verify -Dspring.profiles.active=build'
+                    sh 'mvn clean install -DskipTests=true -Dspring.profiles.active=build'
+                }
+            }
+        }
+        
+        stage('Test Backend') {
+            steps {
+                dir('server') {
+                    sh 'mvn clean verify -Dspring.profiles.active=test'
 
                     withSonarQubeEnv('SonarCloud') {
                         sh '''
                         mvn sonar:sonar \
                             -Dsonar.projectKey=daniel413x_project-one \
-                            -Dsonar.projectName=project-one-server \
+                            -Dsonar.projectName=project-one-server-unit-tests \
                             -Dsonar.java.binaries=target/classes \
                             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
                         '''
@@ -105,10 +135,21 @@ pipeline {
                     '''
 
                     withCredentials([string(credentialsId: 'CUCUMBER_PUBLISH_TOKEN', variable: 'CUCUMBER_TOKEN')]) {
-                        sh '''
-                            cd functional-tests
-                            mvn test -Dheadless=true -Dcucumber.publish.token=${CUCUMBER_TOKEN} -DserverApiUrl=http://localhost:5000/api
-                        '''
+                        dir('functional-tests') {
+                            sh '''
+                                mvn test -Dheadless=true -Dcucumber.publish.token=${CUCUMBER_TOKEN} -DserverApiUrl=http://localhost:5000/api
+                            '''
+
+                            // withSonarQubeEnv('SonarCloud') {
+                            //     sh '''
+                            //     mvn sonar:sonar \
+                            //         -Dsonar.organization=daniel413x \
+                            //         -Dsonar.projectKey=daniel413x_project-two-functional-tests \
+                            //         -Dsonar.projectName=project-two-functional-tests \
+                            //         -Dsonar.junit.reportPaths=target/extent-report/car-create-page-report.xml
+                            //     '''
+                            // }
+                        }
                     }
 
                     // kill backend and frontend processes

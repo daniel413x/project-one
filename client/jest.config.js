@@ -6,6 +6,7 @@ export default {
     "^.+\\.tsx?$": [
       "ts-jest",
       {
+        tsconfig: "tsconfig.node.json",
         diagnostics: {
           ignoreCodes: [1343],
         },
@@ -17,8 +18,8 @@ export default {
                 metaObjectReplacement: {
                   env: {
                     VITE_APP_API_URL: "placeholder",
-                  }
-                }
+                  },
+                },
               },
             },
           ],
@@ -30,4 +31,8 @@ export default {
     "\\.(jpg|jpeg|png|gif|webp|svg|module.css)$": "<rootDir>/src/test/__mocks__/fileMock.js",
     '^@/(.*)': '<rootDir>/src/$1'
   },
+  collectCoverage: true,
+  coverageDirectory: "coverage",
+  coverageReporters: ["lcov", "json", "text"],
+  coveragePathIgnorePatterns: ["/node_modules/"],
 };
