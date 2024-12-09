@@ -38,7 +38,8 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('SonarCloud') {
-                        dir('client') {
+                        dir('client') 
+                            // a project will be created for each distinct value of projectName called under a projectKey/organization
                             sh '''
                             npm run test -- --coverage
                             npx sonar-scanner \
@@ -49,7 +50,7 @@ pipeline {
                                 -Dsonar.exclusions=**/__tests__/**,src/test/** \
                                 -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
                             '''
-                        }
+                        
                     }
                 }
             }
