@@ -42,14 +42,29 @@ pipeline {
                             sh '''
                             npm run test -- --coverage
                             npx sonar-scanner \
-                                -Dsonar.projectKey=daniel413x_project-one \
+                                -Dsonar.projectKey=daniel413x_project-one-client \
                                 -Dsonar.projectName=project-one-client-unit-tests \
+                                -Dsonar.organization=daniel413x \
                                 -Dsonar.sources=src \
                                 -Dsonar.exclusions=**/__tests__/**,src/test/** \
                                 -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
                             '''
                         }
                     }
+                }
+            }
+            
+            post {
+                always {
+                    archiveArtifacts artifacts: 'client/coverage/lcov-report/**/*', fingerprint: true
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'client/coverage/lcov-report',
+                        reportFiles: 'index.html',
+                        reportName: 'Test Report: Frontend Unit Testing'
+                    ])
                 }
             }
         }
@@ -72,10 +87,25 @@ pipeline {
                         mvn sonar:sonar \
                             -Dsonar.projectKey=daniel413x_project-one \
                             -Dsonar.projectName=project-one-server-unit-tests \
+                            -Dsonar.organization=daniel413x \
                             -Dsonar.java.binaries=target/classes \
                             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
                         '''
                     }
+                }
+            }
+
+            post {
+                always {
+                    archiveArtifacts artifacts: 'server/target/site/jacoco/**/*', fingerprint: true
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'server/target/site/jacoco',
+                        reportFiles: 'index.html',
+                        reportName: 'Test Report: Backend Unit Testing'
+                    ])
                 }
             }
         }
@@ -139,16 +169,6 @@ pipeline {
                             sh '''
                                 mvn test -Dheadless=true -Dcucumber.publish.token=${CUCUMBER_TOKEN} -DserverApiUrl=http://localhost:5000/api
                             '''
-
-                            // withSonarQubeEnv('SonarCloud') {
-                            //     sh '''
-                            //     mvn sonar:sonar \
-                            //         -Dsonar.organization=daniel413x \
-                            //         -Dsonar.projectKey=daniel413x_project-two-functional-tests \
-                            //         -Dsonar.projectName=project-two-functional-tests \
-                            //         -Dsonar.junit.reportPaths=target/extent-report/car-create-page-report.xml
-                            //     '''
-                            // }
                         }
                     }
 
@@ -157,11 +177,27 @@ pipeline {
                     sh "kill ${frontendPid} || true"
                 }
             }
-        }
-        
-        stage('Archive Reports') {
-            steps {
-                archiveArtifacts artifacts: 'functional-tests/target/extent-report/**/*.html, server/target/site/jacoco/index.html', fingerprint: true
+
+            post {
+                always {
+                    archiveArtifacts artifacts: 'functional-tests/target/extent-report/**/*', fingerprint: true
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'functional-tests/target/extent-report',
+                        reportFiles: 'all-pages-report.html',
+                        reportName: 'Test Report: Functional Testing'
+                    ])
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'functional-tests/target/extent-report',
+                        reportFiles: 'axe-core-accessibility-report.html',
+                        reportName: 'Test Report: Accessibility Testing'
+                    ])
+                }
             }
         }
     }
