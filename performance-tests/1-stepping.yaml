@@ -1,0 +1,11 @@
+execution:
+  - scenario: make_services_load_test
+
+scenarios:
+  make_services_load_test:
+    script: "test-plans/MakeService.jmx"
+
+reporting:
+  - module: final-stats
+  - module: console
+  - module: junit-xml

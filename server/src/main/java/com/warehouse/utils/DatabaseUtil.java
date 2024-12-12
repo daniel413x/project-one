@@ -36,12 +36,18 @@ public class DatabaseUtil {
     }
   
     public void clearDatabase() {
+        carRepository.deleteAll();
         makeRepository.deleteAll();
         modelRepository.deleteAll();
-        carRepository.deleteAll();
         ownerRepository.deleteAll();
         colorRepository.deleteAll();
+
+        modelRepository.resetIdSequence();
+        
         carRepository.resetIdSequence();
+        makeRepository.resetIdSequence();
+        colorRepository.resetIdSequence();
+        ownerRepository.resetIdSequence();
     }
 
     public void seedTheDatabase() {

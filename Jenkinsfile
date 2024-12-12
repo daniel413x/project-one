@@ -1,10 +1,10 @@
 pipeline {
     agent any
-    
+
     tools {
         nodejs '18.0.0'
     }
-    
+
     environment {
         MAJOR_VERSION = '0'
         MINOR_VERSION = '2'
@@ -76,7 +76,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Test Backend') {
             steps {
                 dir('server') {
@@ -109,60 +109,14 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Perform Functional Tests') {
             steps {
-
                 script {
-                    // capture IDs to later terminate pipeline project test servers
-                    def backendPid
-                    def frontendPid
-                    withCredentials([
-                        string(credentialsId: 'TEST_DB_USERNAME', variable: 'DB_USERNAME'),
-                        string(credentialsId: 'TEST_DB_PASSWORD', variable: 'DB_PASSWORD'),
-                        string(credentialsId: 'TEST_DB_URL', variable: 'DB_URL')]) {
-                            dir('server') {
-                                backendPid = sh(script: '''
-                                    mvn spring-boot:run -Dspring-boot.run.arguments="--DB_URL=${DB_URL} --DB_USERNAME=${DB_USERNAME} --DB_PASSWORD=${DB_PASSWORD}" &
-                                    echo \$!
-                                ''', returnStdout: true).trim()
-                            }
-                        }
+                    def pids = startServers()
 
-                    dir('client') {
-                        frontendPid = sh(script: 'npx vite --mode test & echo $!', returnStdout: true).trim()
-                    }
-
-                    // wait for the backend and frontend to be ready
-                    sh '''
-                        TRIES_REMAINING=16
-
-                        echo 'Waiting for backend to be ready...'
-                        while ! curl --output /dev/null --silent http://localhost:5000; do
-                            TRIES_REMAINING=$((TRIES_REMAINING - 1))
-                            if [ $TRIES_REMAINING -le 0 ]; then
-                                echo 'backend did not start within expected time.'
-                                exit 1
-                            fi
-                            echo 'waiting for backend...'
-                            sleep 5
-                        done
-                        echo '***backend is ready***'
-
-                        TRIES_REMAINING=16
-
-                        echo 'Waiting for frontend to be ready...'
-                        while ! curl --output /dev/null --silent http://localhost:3000; do
-                            TRIES_REMAINING=$((TRIES_REMAINING - 1))
-                            if [ $TRIES_REMAINING -le 0 ]; then
-                                echo 'frontend did not start within expected time.'
-                                exit 1
-                            fi
-                            echo 'waiting for frontend...'
-                            sleep 5
-                        done
-                        echo '***frontend is ready***'
-                    '''
+                    waitForService('http://localhost:5000', 'backend')
+                    waitForService('http://localhost:3000', 'frontend')
 
                     withCredentials([string(credentialsId: 'CUCUMBER_PUBLISH_TOKEN', variable: 'CUCUMBER_TOKEN')]) {
                         dir('functional-tests') {
@@ -172,9 +126,7 @@ pipeline {
                         }
                     }
 
-                    // kill backend and frontend processes
-                    sh "kill ${backendPid} || true"
-                    sh "kill ${frontendPid} || true"
+                    stopServers(pids)
                 }
             }
 
@@ -189,14 +141,27 @@ pipeline {
                         reportFiles: 'all-pages-report.html',
                         reportName: 'Test Report: Functional Testing'
                     ])
-                    publishHTML(target: [
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: 'functional-tests/target/extent-report',
-                        reportFiles: 'axe-core-accessibility-report.html',
-                        reportName: 'Test Report: Accessibility Testing'
-                    ])
+                }
+            }
+        }
+
+        stage('Perform Performance Tests') {
+            steps {
+                script {
+                    def pids = startServers()
+
+                    waitForService('http://localhost:5000', 'backend')
+                    waitForService('http://localhost:3000', 'frontend')
+
+                    dir('performance-tests') {
+                        bzt "0-stepping.yaml"
+                        bzt "1-stepping.yaml"
+                        bzt "2-stepping.yaml"
+                        bzt "3-stepping.yaml"
+                        archiveArtifacts artifacts: '*/**.jtl', allowEmptyArchive: true
+                    }
+
+                    stopServers(pids)
                 }
             }
         }
@@ -206,5 +171,55 @@ pipeline {
         always {
             cleanWs()
         }
+    }
+}
+
+// Utility function to start servers
+def startServers() {
+    def pids = [:]
+
+    withCredentials([
+        string(credentialsId: 'TEST_DB_USERNAME', variable: 'DB_USERNAME'),
+        string(credentialsId: 'TEST_DB_PASSWORD', variable: 'DB_PASSWORD'),
+        string(credentialsId: 'TEST_DB_URL', variable: 'DB_URL')]) {
+        dir('server') {
+            pids.backend = sh(script: '''
+                mvn spring-boot:run -Dspring-boot.run.arguments="--DB_URL=${DB_URL} --DB_USERNAME=${DB_USERNAME} --DB_PASSWORD=${DB_PASSWORD}" &
+                echo $!
+            ''', returnStdout: true).trim()
+        }
+    }
+
+    dir('client') {
+        pids.frontend = sh(script: 'npx vite --mode test & echo $!', returnStdout: true).trim()
+    }
+
+    return pids
+}
+
+// Utility function to wait for a service to be ready
+def waitForService(url, serviceName) {
+    sh """#!/bin/bash
+        TRIES_REMAINING=30
+        echo "Waiting for ${serviceName} to be ready at ${url}..."
+        while ! curl --output /dev/null --silent "${url}"; do
+            TRIES_REMAINING=\$((TRIES_REMAINING - 1))
+            if [ \$TRIES_REMAINING -le 0 ]; then
+                echo "ERROR: ${serviceName} did not start within expected time."
+                exit 1
+            fi
+            echo "waiting for ${serviceName}..."
+            sleep 5
+        done
+        echo "***${serviceName} is ready***"
+    """
+}
+
+
+
+// Utility function to stop servers
+def stopServers(pids) {
+    pids.each { key, pid ->
+        sh "kill ${pid} || true"
     }
 }

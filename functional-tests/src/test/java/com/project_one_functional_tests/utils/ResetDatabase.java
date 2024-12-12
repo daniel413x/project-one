@@ -13,4 +13,22 @@ public class ResetDatabase {
             System.out.println(e);
         }
     }
+
+    public static void clear() {
+        try {
+            HttpUtil.sendPostRequest(
+                    serverApiUrl + "/testing/clear");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void seed() {
+        try {
+            HttpUtil.sendPostRequest(
+                    serverApiUrl + "/testing/seed");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
 }

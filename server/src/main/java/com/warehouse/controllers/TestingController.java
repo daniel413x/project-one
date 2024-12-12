@@ -26,4 +26,16 @@ public class TestingController {
         this.databaseUtil.clearDatabase();
         this.databaseUtil.seedTheDatabase();
     }
+
+    @PostMapping("/clear")
+    @ResponseStatus(code = HttpStatus.OK)
+    public void clear() {
+        this.databaseUtil.clearDatabase();
+    }
+
+    @PostMapping("/seed")
+    @ResponseStatus(code = HttpStatus.OK)
+    public void seed() {
+        this.databaseUtil.seedTheDatabase();
+    }
 }

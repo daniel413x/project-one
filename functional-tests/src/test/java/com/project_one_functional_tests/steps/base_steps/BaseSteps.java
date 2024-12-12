@@ -40,7 +40,8 @@ public class BaseSteps {
 
     @Before
     public void before() {
-        ResetDatabase.run();
+        ResetDatabase.clear();
+        ResetDatabase.seed();
         driver = HeadlessChromeDriver.getDriver();
     }
 

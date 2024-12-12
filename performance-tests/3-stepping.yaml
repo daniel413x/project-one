@@ -1,0 +1,11 @@
+execution:
+  - scenario: owner_service_test
+
+scenarios:
+  owner_service_test:
+    script: "test-plans/OwnerService.jmx"
+
+reporting:
+  - module: final-stats
+  - module: console
+  - module: junit-xml
