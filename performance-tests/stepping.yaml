@@ -1,0 +1,23 @@
+execution:
+  - scenario: reset_database
+  - scenario: car_service_test
+  - scenario: make_services_load_test
+  - scenario: model_service_load_test
+  - scenario: owner_service_test
+
+scenarios:
+  reset_database:
+    script: "test-plans/ResetDatabase.jmx"
+  car_service_test:
+    script: "test-plans/CarService.jmx"
+  make_services_load_test:
+    script: "test-plans/MakeService.jmx"
+  model_service_load_test:
+    script: "test-plans/ModelService.jmx"
+  owner_service_test:
+    script: "test-plans/OwnerService.jmx"
+
+reporting:
+  - module: final-stats
+  - module: console
+  - module: junit-xml

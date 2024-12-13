@@ -154,10 +154,9 @@ pipeline {
                     waitForService('http://localhost:3000', 'frontend')
 
                     dir('performance-tests') {
-                        bzt "0-stepping.yaml"
-                        bzt "1-stepping.yaml"
-                        bzt "2-stepping.yaml"
-                        bzt "3-stepping.yaml"
+                        sh '''
+                            bzt stepping.yaml
+                        '''
                         archiveArtifacts artifacts: '*/**.jtl', allowEmptyArchive: true
                     }
 
