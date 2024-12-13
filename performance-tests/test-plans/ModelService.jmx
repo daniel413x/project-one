@@ -150,7 +150,7 @@
               <stringProp name="JSONPostProcessor.referenceNames">newModelId</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              <stringProp name="TestPlan.comments">Getting the car ID that was created - format in JSON is &quot;id&quot;:&lt;number&gt;</stringProp>
+              <stringProp name="TestPlan.comments">Getting the model ID that was created - format in JSON is &quot;id&quot;:&lt;number&gt;</stringProp>
               <stringProp name="JSONPostProcessor.defaultValues">1</stringProp>
             </JSONPostProcessor>
             <hashTree/>
