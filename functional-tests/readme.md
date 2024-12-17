@@ -1,6 +1,6 @@
-# `Warehouse project functional testing`
+# `Warehouse project performance testing`
 by Daniel Maramba
 
 ### Running tests
 
-`mvn test`
+`bzt stepping.yaml`
