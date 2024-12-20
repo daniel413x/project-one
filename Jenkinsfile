@@ -165,7 +165,7 @@ pipeline {
                         sh '''
                             bzt stepping.yaml
                         '''
-			perfReport sourceDataFiles: '*.{xml,jtl}'
+			perfReport sourceDataFiles: '*.jtl, *.xml'
                         archiveArtifacts artifacts: '*/**.jtl', allowEmptyArchive: true
                     }
 
