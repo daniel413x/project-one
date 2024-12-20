@@ -163,7 +163,6 @@ pipeline {
 
                     dir('performance-tests') {
                     	bzt 'stepping.yaml'
-			perfReport sourceDataFiles: '*.jtl, *.xml'
                         archiveArtifacts artifacts: '*/**.jtl', allowEmptyArchive: true
                     }
 
