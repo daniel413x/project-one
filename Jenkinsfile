@@ -162,9 +162,7 @@ pipeline {
                     waitForService('http://localhost:3000', 'frontend')
 
                     dir('performance-tests') {
-                        sh '''
-                            bzt stepping.yaml
-                        '''
+                    	bzt 'stepping.yaml'
 			perfReport sourceDataFiles: '*.jtl, *.xml'
                         archiveArtifacts artifacts: '*/**.jtl', allowEmptyArchive: true
                     }
