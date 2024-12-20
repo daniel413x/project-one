@@ -141,6 +141,14 @@ pipeline {
                         reportFiles: 'all-pages-report.html',
                         reportName: 'Test Report: Functional Testing'
                     ])
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'functional-tests/target/extent-report',
+                        reportFiles: 'axe-core-accessibility-report.html',
+                        reportName: 'Test Report: Accessibility Testing'
+                    ])
                 }
             }
         }
@@ -157,6 +165,7 @@ pipeline {
                         sh '''
                             bzt stepping.yaml
                         '''
+			perfReport sourceDataFiles: '*.{xml,jtl}'
                         archiveArtifacts artifacts: '*/**.jtl', allowEmptyArchive: true
                     }
 

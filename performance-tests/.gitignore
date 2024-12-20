@@ -2,3 +2,5 @@
 jmeter.log
 TestPlan.jmx
 test-stepping.yaml
+*.jtl
+*.xml
