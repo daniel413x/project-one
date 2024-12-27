@@ -13,10 +13,10 @@ pipeline {
         STAGING_BRANCH = 'staging'
         MAIN_BRANCH = 'main'
         GITHUB_REVIEWER_USERNAMES = '"daniel413x"'
-        // obtained via GH App settings page
-        GITHUB_APP_INSTALLATION = '1096077'
-        // obtained via GH App settings page
-        CLIENT_ID = credentials('GITHUB_APP_CLIENT_ID')
+        // obtained via curl to https://api.github.com/app/installations w/ access token
+        GITHUB_APP_INSTALLATION = credentials('GITHUB_APP_INSTALLATION')
+        // obtained via GH App settings page 
+        GITHUB_APP_CLIENT_ID = credentials('GITHUB_APP_CLIENT_ID')
         // generated/obtained via GH App settings page
         PEM = credentials('GITHUB_APP_PEM')
     }
@@ -241,8 +241,6 @@ def waitForService(url, serviceName) {
     """
 }
 
-
-
 // Utility function to stop servers
 def stopServers(pids) {
     pids.each { key, pid ->
@@ -279,7 +277,7 @@ def generateJWT() {
 
     return sh(script: """
         #!/bin/bash
-        client_id="${CLIENT_ID}"
+        client_id="${GITHUB_APP_CLIENT_ID}"
         pem="${PEM}"
         iat="${iat}"
         exp="${exp}"
@@ -288,15 +286,12 @@ def generateJWT() {
         payload=\$(echo -n "{\\"iat\\":\${iat},\\"exp\\":\${exp},\\"iss\\":\\"\${client_id}\\"}" | b64enc)
         header_payload="\${header}.\${payload}"
 
-        pem_file=\$(mktemp)
-        echo "\${pem}" > "\${pem_file}"
-
-        signature=\$(echo -n "\${header_payload}" | openssl dgst -sha256 -sign "\${pem_file}" | b64enc)
+        signature=\$(echo -n "\${header_payload}" | openssl dgst -sha256 -sign \${PEM} | b64enc)
         JWT="\${header_payload}.\${signature}"
-        rm -f "\${pem_file}"
         echo "\${JWT}"
     """, returnStdout: true).trim()
 }
+
 
 // Function to retrieve access token
 def retrieveAccessToken(JWT) {
@@ -338,6 +333,9 @@ def createPullRequest(GITHUB_TOKEN) {
             }
         """
     )
+    echo "Response status: ${pullResponse.status}"
+    echo "Response body: ${pullResponse.content}"
+
 
     if (pullResponse.status == 201) {
         def jsonResponse = readJSON text: pullResponse.content
@@ -377,7 +375,7 @@ def requestReviewers(GITHUB_TOKEN, prNumber) {
 // Function to revert last pull request
 def revertLastPullRequest(GITHUB_TOKEN) {
     def getPullResponse = httpRequest(
-        url: "https://api.github.com/repos/My-Budget-Buddy/Budget-Buddy-${PASCAL_SERVICE_NAME}/commits/${env.GIT_COMMIT}/pulls",
+        url: "https://api.github.com/repos/daniel413x/project-one/commits/${env.GIT_COMMIT}/pulls",
         httpMode: 'GET',
         customHeaders: [
             [name: 'Accept', value: '*/*'],
@@ -481,7 +479,7 @@ def requestReviewersForRevert(prAuthor, GITHUB_TOKEN, jsonResponse) {
     }
 
     def revertRequestResponse = httpRequest(
-        url: "https://api.github.com/repos/My-Budget-Buddy/Budget-Buddy-${PASCAL_SERVICE_NAME}/pulls/${revertPrNumber}/requested_reviewers",
+        url: "https://api.github.com/repos/daniel413x/project-one/pulls/${revertPrNumber}/requested_reviewers",
         httpMode: 'POST',
         customHeaders: [
             [name: 'Accept', value: 'application/vnd.github+json'],
