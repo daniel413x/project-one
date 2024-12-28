@@ -1,4 +1,4 @@
-# `Warehouse project`
+# `SkillStorm Warehouse project`
 by Daniel Maramba
 
 ### `Set environment variables`
