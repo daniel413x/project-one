@@ -292,7 +292,6 @@ def generateJWT() {
     """, returnStdout: true).trim()
 }
 
-
 // Function to retrieve access token
 def retrieveAccessToken(JWT) {
     def tokenResponse = httpRequest(
