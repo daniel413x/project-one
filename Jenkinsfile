@@ -17,6 +17,8 @@ pipeline {
         GITHUB_APP_INSTALLATION = credentials('GITHUB_APP_INSTALLATION')
         // obtained via GH App settings page 
         GITHUB_APP_CLIENT_ID = credentials('GITHUB_APP_CLIENT_ID')
+        // could be single repo, e.g. daniel413x/project-one, or organization, e.g. repos/My-Budget-Buddy/Budget-Buddy-UserService
+        GITHUB_REPO = 'daniel413x/project-one'
         // generated/obtained via GH App settings page
         PEM = credentials('GITHUB_APP_PEM')
     }
@@ -107,7 +109,7 @@ pipeline {
             post {
                 always {
                     archiveArtifacts artifacts: 'server/target/site/jacoco/**/*', fingerprint: true
-                    publishHTML(target: [
+                    publishHTML(target: [daniel413x/project-one
                         allowMissing: false,
                         alwaysLinkToLastBuild: true,
                         keepAll: true,
@@ -316,7 +318,7 @@ def retrieveAccessToken(JWT) {
 // Function to create pull request
 def createPullRequest(GITHUB_TOKEN) {
     def pullResponse = httpRequest(
-        url: "https://api.github.com/repos/daniel413x/project-one/pulls",
+        url: "https://api.github.com/repos/${GITHUB_REPO}/pulls",
         httpMode: 'POST',
         customHeaders: [
             [name: 'Accept', value: '*/*'],
@@ -349,7 +351,7 @@ def createPullRequest(GITHUB_TOKEN) {
 // Function to request reviewers for the pull request
 def requestReviewers(GITHUB_TOKEN, prNumber) {
     def reviewerResponse = httpRequest(
-        url: "https://api.github.com/repos/daniel413x/project-one/pulls/${prNumber}/requested_reviewers",
+        url: "https://api.github.com/repos/${GITHUB_REPO}/pulls/${prNumber}/requested_reviewers",
         httpMode: 'POST',
         customHeaders: [
             [name: 'Accept', value: 'application/vnd.github+json'],
@@ -374,7 +376,7 @@ def requestReviewers(GITHUB_TOKEN, prNumber) {
 // Function to revert last pull request
 def revertLastPullRequest(GITHUB_TOKEN) {
     def getPullResponse = httpRequest(
-        url: "https://api.github.com/repos/daniel413x/project-one/commits/${env.GIT_COMMIT}/pulls",
+        url: "https://api.github.com/repos/${GITHUB_REPO}/commits/${env.GIT_COMMIT}/pulls",
         httpMode: 'GET',
         customHeaders: [
             [name: 'Accept', value: '*/*'],
@@ -473,12 +475,12 @@ def requestReviewersForRevert(prAuthor, GITHUB_TOKEN, jsonResponse) {
     def reviewerList = revertReviewers.split(',').collect { it.trim().replaceAll('"', '') }
 
     // Check if prAuthor is not already in the list
-    if (!reviewerList.contains(prAuthor) && prAuthor != null && prAuthor != 'jenkins_budgetbuddy') {
+    if (!reviewerList.contains(prAuthor) && prAuthor != null && prAuthor != 'jenkins_projectone') {
         revertReviewers += ", \"${prAuthor}\""
     }
 
     def revertRequestResponse = httpRequest(
-        url: "https://api.github.com/repos/daniel413x/project-one/pulls/${revertPrNumber}/requested_reviewers",
+        url: "https://api.github.com/repos/${GITHUB_REPO}/pulls/${revertPrNumber}/requested_reviewers",
         httpMode: 'POST',
         customHeaders: [
             [name: 'Accept', value: 'application/vnd.github+json'],
