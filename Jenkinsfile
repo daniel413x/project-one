@@ -109,7 +109,7 @@ pipeline {
             post {
                 always {
                     archiveArtifacts artifacts: 'server/target/site/jacoco/**/*', fingerprint: true
-                    publishHTML(target: [daniel413x/project-one
+                    publishHTML(target: [
                         allowMissing: false,
                         alwaysLinkToLastBuild: true,
                         keepAll: true,
@@ -296,6 +296,7 @@ def generateJWT() {
 
 // Function to retrieve access token
 def retrieveAccessToken(JWT) {
+    
     def tokenResponse = httpRequest(
         url: "https://api.github.com/app/installations/${GITHUB_APP_INSTALLATION}/access_tokens",
         httpMode: 'POST',
